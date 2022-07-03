@@ -11,13 +11,4 @@ package-install:
 	poetry publish --dry-run
 
 make lint:
-	poetry run flake8 brain_games
-
-flask-upp:
-	export FLASK_APP=hello_world.py
-
-flask-env:
-	export FLASK_ENV=development
-
-flask-run:
-	python -m flask run
+	poetry run flake8
