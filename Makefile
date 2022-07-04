@@ -7,8 +7,12 @@ build:
 package-install:
 	python3 -m pip install dist/*.whl
 
- publish:
-	poetry publish --dry-run
+lint:
+	poetry run flake8 gendiff
 
-make lint:
-	poetry run flake8
+check:
+	poetry run pytest
+
+test-coverage:
+	poetry run pytest --cov=page-loader --cov-report xml
+
