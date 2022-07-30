@@ -1,11 +1,15 @@
 # !/usr/bin/env python3
-from page_loader import download
+from page_loader.page_loader import download
 from page_loader.cli import parse
 
 
 def main():
     args = parse()
-    result = download(args)
+    result = download(
+        args.output,
+        args.page_name,
+        args.file_path
+    )
     print(result)
 
 
