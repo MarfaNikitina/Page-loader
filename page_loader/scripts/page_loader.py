@@ -1,7 +1,4 @@
 # !/usr/bin/env python3
-# from page_loader.page_loader import download
-
-
 from page_loader.page_loader import download
 
 # from page_loader import download
