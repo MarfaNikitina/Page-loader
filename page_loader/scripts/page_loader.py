@@ -1,4 +1,6 @@
 # !/usr/bin/env python3
+import os
+
 from page_loader.page_loader import download
 
 # from page_loader import download
@@ -9,7 +11,7 @@ def main():
     args = parse()
     result = download(
         args.file_path,
-        args.page_name,
+        args.url,
         args.output
     )
     print(result)
