@@ -10,7 +10,6 @@ from page_loader.cli import parse
 def main():
     args = parse()
     result = download(
-        args.file_path,
         args.url,
         args.output
     )

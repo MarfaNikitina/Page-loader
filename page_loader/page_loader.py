@@ -18,11 +18,11 @@ def to_dir(url):
 
 
 
-def download(filepath, url, output=os.getcwd()):
+def download(url, filepath=os.getcwd()):
     new_fp = os.path.join(filepath, to_file(url))
-    send_request = requests.get(url)
+    response = requests.get(url)
     with open(new_fp, 'w') as file:
-        file.write(send_request.text)
+        file.write(response.text)
     dir_name = os.path.join(filepath, to_dir(url))
     return new_fp
 
@@ -48,3 +48,12 @@ def download(filepath, url, output=os.getcwd()):
 
 # with open("index.html") as fp:
     # soup = BeautifulSoup(fp, 'html.parser')
+   # images = soup.find_all('img')
+   
+   
+# r = requests.get("xxx")
+# soup = BeautifulSoup(r.content)
+# for link in soup.select("img[src^=http]"):
+#         lnk = link["src"]
+#         with open(basename(lnk)," wb") as f:
+#             f.write(requests.get(lnk).content)

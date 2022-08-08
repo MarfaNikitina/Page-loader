@@ -24,7 +24,7 @@ def test_download(url, expected_result):
     with requests_mock.Mocker() as mock:
         with tempfile.TemporaryDirectory() as tmpdir:
             mock.get(URL, text=html_expected)
-            download(tmpdir, URL)
+            download(URL, tmpdir)
             actual_html = read(os.path.join(tmpdir, DOWNLOADED_HTML))
 
             assert actual_html == html_expected
