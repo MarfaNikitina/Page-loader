@@ -13,7 +13,7 @@ URL = 'https://ru.hexlet.io/courses'
 
 EXPECTED_HTML = f"{FIXTURES_PATH}/ru-hexlet-io-courses.txt"
 
-DOWNLOADED_HTML = './tmp/ru-hexlet-io-courses.html'
+DOWNLOADED_HTML = 'ru-hexlet-io-courses.html'
 
 
 @pytest.mark.parametrize('url, expected_result',
