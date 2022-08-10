@@ -1,31 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 import os
-import re
-
-
-def to_file(url):
-    url_without_extension = os.path.splitext(url)[0]
-    file_name_list = re.split('\//|\/|\.', url_without_extension)[1:]
-    file_name = '-'.join(file_name_list) + '.html'
-    return file_name
-
-
-def to_dir(url):
-    file_name = to_file(url)
-    dir_name = os.path.splitext(file_name)[0] + '_files'
-    return dir_name
-
-
-def to_image_name(url, path):
-    path_to_name = '-'.join(path.split('/'))
-    prefix = url.split('//')[1].split('/')[0]
-    formatted_prefix = '-'.join(prefix.split('.'))
-    return f"{formatted_prefix}-{path_to_name}"
+from page_loader.name import to_file_name, to_dir, to_image_name
 
 
 def download(url, filepath=os.getcwd()):
-    new_fp = os.path.join(filepath, to_file(url))
+    new_fp = os.path.join(filepath, to_file_name(url))
     response = requests.get(url)
     write(new_fp, response.text)
 
@@ -36,8 +16,6 @@ def download(url, filepath=os.getcwd()):
     image = soup.find('img')['src']
     image_name = to_image_name(url, image)
     write(os.path.join(dir_name, image_name), image)
-    # print(image)
-    # print(image_name)
     return new_fp
 
 
