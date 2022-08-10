@@ -17,13 +17,27 @@ def to_dir(url):
     return dir_name
 
 
+def to_image_name(url, path):
+    path_to_name = '-'.join(path.split('/'))
+    prefix = url.split('//')[1].split('/')[0]
+    formatted_prefix = '-'.join(prefix.split('.'))
+    return f"{formatted_prefix}-{path_to_name}"
+
 
 def download(url, filepath=os.getcwd()):
     new_fp = os.path.join(filepath, to_file(url))
     response = requests.get(url)
-    with open(new_fp, 'w') as file:
-        file.write(response.text)
+    write(new_fp, response.text)
+
     dir_name = os.path.join(filepath, to_dir(url))
+    os.mkdir(dir_name)
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+    image = soup.find('img')['src']
+    image_name = to_image_name(url, image)
+    write(os.path.join(dir_name, image_name), image)
+    # print(image)
+    # print(image_name)
     return new_fp
 
 
@@ -33,9 +47,10 @@ def download(url, filepath=os.getcwd()):
 #     return result
 # 
 # 
-# def write(file_path, data):
-#     with open(file_path, 'w') as f:
-#         f.write(data)
+def write(file_path, data):
+    with open(file_path, 'w') as f:
+        f.write(data)
+
 # 
 # 
 # def _right(file_path):
@@ -46,9 +61,6 @@ def download(url, filepath=os.getcwd()):
 #         BeautifulSoup(data, 'html.parser').prettify()
 #     )
 
-# with open("index.html") as fp:
-    # soup = BeautifulSoup(fp, 'html.parser')
-   # images = soup.find_all('img')
    
    
 # r = requests.get("xxx")
