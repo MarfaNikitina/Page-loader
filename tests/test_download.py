@@ -10,6 +10,8 @@ FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 
 
 URL = 'https://ru.hexlet.io/courses'
+URL2 = 'https://page-loader.hexlet.repl.co/'
+IMG2 = 
 
 EXPECTED_HTML = f"{FIXTURES_PATH}/ru-hexlet-io-courses.txt"
 
