@@ -1,6 +1,7 @@
 import pytest
 import os
-from page_loader.page_loader import download, to_file, to_dir
+from page_loader.name import to_filename, to_dir
+from page_loader.page_loader import download
 import tempfile
 import requests_mock
 
@@ -9,39 +10,50 @@ TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
 FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 
 
-URL = 'https://ru.hexlet.io/courses'
-URL2 = 'https://page-loader.hexlet.repl.co/'
-IMG2 = 
+# URL = 'https://ru.hexlet.io/courses'
+URL = 'https://page-loader.hexlet.repl.co/'
+IMG_URL = 'https://ru.hexlet.io/professions/nodejs.png'
 
-EXPECTED_HTML = f"{FIXTURES_PATH}/ru-hexlet-io-courses.txt"
 
-DOWNLOADED_HTML = 'ru-hexlet-io-courses.html'
+EXPECTED_HTML = f"{FIXTURES_PATH}/fixture_html.txt"
+EXPECTED_IMG = f"{FIXTURES_PATH}/img.png"
+
+
+DOWNLOADED_HTML = 'page-loader-hexlet-repl-co-.html'
+DOWNLOADED_IMG = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--assets-professions-nodejs.png'
 
 
 @pytest.mark.parametrize('url, expected_result',
-                         [('https://ru.hexlet.io/courses', 'ru-hexlet-io-courses.html')])
+                         [('https://page-loader.hexlet.repl.co/', 'page-loader-hexlet-repl-co-.html')])
 def test_download(url, expected_result):
     html_expected = read(EXPECTED_HTML)
+    img_expected = read(EXPECTED_IMG, binary=True)
 
     with requests_mock.Mocker() as mock:
         with tempfile.TemporaryDirectory() as tmpdir:
             mock.get(URL, text=html_expected)
             download(URL, tmpdir)
             actual_html = read(os.path.join(tmpdir, DOWNLOADED_HTML))
-
             assert actual_html == html_expected
+            
+            actual_img = read(os.path.join(tmpdir, DOWNLOADED_IMG), binary=True)
+            assert actual_img == img_expected
 
 
-def read(file_path):
-    with open(file_path, 'r') as data:
-        result = data.read()
+def read(file_path, binary=False):
+    if binary:
+        with open(file_path, 'rb') as data:
+            result = data.read()
+    else:
+        with open(file_path, 'r') as data:
+            result = data.read()
     return result
 
 
 @pytest.mark.parametrize('url, expected_filename',
                          [('https://ru.hexlet.io/courses', 'ru-hexlet-io-courses.html')])
 def test_to_file(url, expected_filename):
-    assert to_file(url) == expected_filename
+    assert to_filename(url) == expected_filename
 
 
 @pytest.mark.parametrize('url, expected_dir_name',

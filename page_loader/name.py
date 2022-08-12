@@ -2,7 +2,7 @@ import os
 import re
 
 
-def to_file_name(url):
+def to_filename(url):
     url_without_extension = os.path.splitext(url)[0]
     file_name_list = re.split('\//|\/|\.', url_without_extension)[1:]
     file_name = '-'.join(file_name_list) + '.html'
@@ -10,7 +10,7 @@ def to_file_name(url):
 
 
 def to_dir(url):
-    file_name = to_file_name(url)
+    file_name = to_filename(url)
     dir_name = os.path.splitext(file_name)[0] + '_files'
     return dir_name
 
