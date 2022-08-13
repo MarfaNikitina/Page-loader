@@ -14,19 +14,22 @@ def download(url, filepath=os.getcwd()):
     if not os.path.exists(dir_name):
         os.mkdir(dir_name)
     soup = BeautifulSoup(response.content, 'html.parser')
-    download_img(url, dir_name, soup)
+    download_resources(url, dir_name, soup)
     images = [img for img in soup.findAll('img')]
+    links = [link for link in soup.findAll('link')]
+    for lnk in links:
+        image_name = to_image_name(url, lnk['href'])
+        lnk['href'] = os.path.join(dir_name, image_name)
+    scripts = [script for script in soup.findAll('script') if script.get('src') is not None]
+    images.extend(scripts)
     for img in images:
         image_name = to_image_name(url, img['src'])
         img['src'] = os.path.join(dir_name, image_name)
-    # new_soup = soup.prettify()
     write(new_fp, soup.prettify())
     return new_fp
 
 
 def download_img(url, dir_name, soup):
-    # response = requests.get(url)
-    # soup = BeautifulSoup(response.content, 'html.parser')
     images = [img for img in soup.findAll('img')]
     print(str(len(images)) + " images found.")
     print('Downloading images to current working directory.')
@@ -40,6 +43,7 @@ def download_img(url, dir_name, soup):
             print('Getting: ' + filename)
             response = requests.get(src, stream=True)
             time.sleep(1)
+            # write(response.raw, filename, binary=True)
             with open(filename, 'wb') as out_file:
                 shutil.copyfileobj(response.raw, out_file)
         except:
@@ -47,21 +51,50 @@ def download_img(url, dir_name, soup):
     print('Done.')
 
 
-    # for each in images:
-    #     each['src'] = filename
+def download_resources(url, dir_name, soup):
+    resources = []
+    links = [link for link in soup.findAll('link')]
+    link_links = [each.get('href') for each in links]
+    for each in link_links:
+        try:
+            print(each)
+            link_name = to_image_name(url, each)
+            filename = os.path.join(dir_name, link_name)
+            href = urljoin(url, each)
+            # print('Getting: ' + filename)
+            response = requests.get(href, stream=True)
+            time.sleep(1)
+            with open(filename, 'wb') as out_file:
+                shutil.copyfileobj(response.raw, out_file)
+        except:
+            print('  An error occured. Continuing.')
+    print('Done.')
+    # resources.extend(links)
+    images = [img for img in soup.findAll('img')]
+    resources.extend(images)
+    scripts = [script for script in soup.findAll('script') if script.get('src') is not None]
+    resources.extend(scripts)
+    resources_links = [each.get('src') for each in resources]
+    for each in resources_links:
+        try:
+            print(each)
+            link_name = to_image_name(url, each)
+            filename = os.path.join(dir_name, link_name)
+            src = urljoin(url, each)
+            # print('Getting: ' + filename)
+            response = requests.get(src, stream=True)
+            time.sleep(1)
+            with open(filename, 'wb') as out_file:
+                shutil.copyfileobj(response.raw, out_file)
+        except:
+            print('  An error occured. Continuing.')
+    print('Done.')
 
 
-
-
-def write(file_path, data):
-    with open(file_path, 'w') as f:
-        f.write(data)
-
-
-# def _right(file_path):
-#     data = read(file_path)
-# 
-#     write(
-#         file_path,
-#         BeautifulSoup(data, 'html.parser').prettify()
-#     )
+def write(file_path, data, binary=False):
+    if not binary:
+        with open(file_path, 'w') as f:
+            f.write(data)
+    else:
+        with open(file_path, 'wb') as f:
+            f.write(data)

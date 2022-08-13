@@ -12,10 +12,10 @@ FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 
 # URL = 'https://ru.hexlet.io/courses'
 URL = 'https://page-loader.hexlet.repl.co/'
-IMG_URL = 'https://ru.hexlet.io/professions/nodejs.png'
+IMG_URL = 'https://page-loader.hexlet.repl.co/assets/professions/nodejs.png'
 
 
-EXPECTED_HTML = f"{FIXTURES_PATH}/fixture_html.txt"
+EXPECTED_HTML = f"{FIXTURES_PATH}/prettify_html.html"
 EXPECTED_IMG = f"{FIXTURES_PATH}/img.png"
 
 
@@ -32,10 +32,11 @@ def test_download(url, expected_result):
     with requests_mock.Mocker() as mock:
         with tempfile.TemporaryDirectory() as tmpdir:
             mock.get(URL, text=html_expected)
+            mock.get(IMG_URL, content=img_expected)
             download(URL, tmpdir)
             actual_html = read(os.path.join(tmpdir, DOWNLOADED_HTML))
             assert actual_html == html_expected
-            
+
             actual_img = read(os.path.join(tmpdir, DOWNLOADED_IMG), binary=True)
             assert actual_img == img_expected
 
