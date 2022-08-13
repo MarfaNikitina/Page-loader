@@ -31,16 +31,19 @@ def download(url, filepath=os.getcwd()):
 
 def download_resources(url, dir_name, soup):
     resources = []
-    links = [link for link in soup.findAll('link')]
-    link_links = [each.get('href') for each in links]
-    download_links(url, link_links, dir_name)
-    images = [img for img in soup.findAll('img')]
+    link_links = get_tags_links('link', 'href', soup)
+    resources.extend(link_links)
+    images = get_tags_links('img', 'src', soup)
     resources.extend(images)
-    scripts = [script for script in soup.findAll('script') if script.get('src') is not None]
+    scripts = get_tags_links('script', 'src', soup)
     resources.extend(scripts)
-    resources_links = [each.get('src') for each in resources]
-    download_links(url, resources_links, dir_name)
-    print('Done.')
+    download_links(url, resources, dir_name)
+
+
+def get_tags_links(tag, attribute, soup):
+    tags = [tag for tag in soup.findAll(tag)]
+    tags_links = [each.get(attribute) for each in tags if each.get(attribute) is not None]
+    return tags_links
 
 
 def download_links(url, list_of_links, dir_name):
@@ -49,8 +52,8 @@ def download_links(url, list_of_links, dir_name):
             print(each)
             link_name = to_image_name(url, each)
             filename = os.path.join(dir_name, link_name)
-            attr = urljoin(url, each)
-            response = requests.get(attr, stream=True)
+            src = urljoin(url, each)
+            response = requests.get(src, stream=True)
             time.sleep(1)
             with open(filename, 'wb') as out_file:
                 shutil.copyfileobj(response.raw, out_file)
