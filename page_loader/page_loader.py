@@ -11,20 +11,27 @@ def download(url, filepath=os.getcwd()):
     new_fp = os.path.join(filepath, to_filename(url))
     response = requests.get(url)
     dir_name = to_dir(url)
-    if not os.path.exists(dir_name):
-        os.mkdir(dir_name)
+    dir_path = os.path.join(filepath, dir_name)
+    if not os.path.exists(dir_path):
+        os.mkdir(dir_path)
     soup = BeautifulSoup(response.content, 'html.parser')
-    download_resources(url, dir_name, soup)
+    download_resources(url, dir_path, soup)
+    resources = []
     images = [img for img in soup.findAll('img')]
     links = [link for link in soup.findAll('link')]
-    for lnk in links:
-        image_name = to_resource_name(url, lnk['href'])
-        lnk['href'] = os.path.join(dir_name, image_name)
-    scripts = [script for script in soup.findAll('script') if script.get('src') is not None]
-    images.extend(scripts)
-    for img in images:
-        image_name = to_resource_name(url, img['src'])
-        img['src'] = os.path.join(dir_name, image_name)
+    scripts = [
+        script for script in soup.findAll('script') if script.get('src') is not None
+    ]
+    resources.extend(images)
+    resources.extend(links)
+    resources.extend(scripts)
+    for each in resources:
+        if each.get('href') is not None:
+            resource_name = to_resource_name(url, each['href'])
+            each['href'] = os.path.join(dir_name, resource_name)
+        else:
+            resource_name = to_resource_name(url, each['src'])
+            each['src'] = os.path.join(dir_name, resource_name)
     write(new_fp, soup.prettify())
     return new_fp
 
@@ -42,7 +49,9 @@ def download_resources(url, dir_name, soup):
 
 def get_tags_links(tag, attribute, soup):
     tags = [tag for tag in soup.findAll(tag)]
-    tags_links = [each.get(attribute) for each in tags if each.get(attribute) is not None]
+    tags_links = [
+        each.get(attribute) for each in tags if each.get(attribute) is not None
+    ]
     return tags_links
 
 
