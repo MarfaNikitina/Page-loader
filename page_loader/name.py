@@ -15,7 +15,7 @@ def to_dir(url):
     return dir_name
 
 
-def to_image_name(url, path):
+def to_resource_name(url, path):
     path_to_name = '-'.join(path.split('/'))
     prefix = url.split('//')[1].split('/')[0]
     formatted_prefix = '-'.join(prefix.split('.'))

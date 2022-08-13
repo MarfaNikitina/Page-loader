@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os
-from page_loader.name import to_filename, to_dir, to_image_name
+from page_loader.name import to_filename, to_dir, to_resource_name
 import shutil
 from urllib.parse import urljoin
 import time
@@ -10,7 +10,7 @@ import time
 def download(url, filepath=os.getcwd()):
     new_fp = os.path.join(filepath, to_filename(url))
     response = requests.get(url)
-    dir_name = os.path.join(filepath, to_dir(url))
+    dir_name = to_dir(url)
     if not os.path.exists(dir_name):
         os.mkdir(dir_name)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -18,12 +18,12 @@ def download(url, filepath=os.getcwd()):
     images = [img for img in soup.findAll('img')]
     links = [link for link in soup.findAll('link')]
     for lnk in links:
-        image_name = to_image_name(url, lnk['href'])
+        image_name = to_resource_name(url, lnk['href'])
         lnk['href'] = os.path.join(dir_name, image_name)
     scripts = [script for script in soup.findAll('script') if script.get('src') is not None]
     images.extend(scripts)
     for img in images:
-        image_name = to_image_name(url, img['src'])
+        image_name = to_resource_name(url, img['src'])
         img['src'] = os.path.join(dir_name, image_name)
     write(new_fp, soup.prettify())
     return new_fp
@@ -50,7 +50,7 @@ def download_links(url, list_of_links, dir_name):
     for each in list_of_links:
         try:
             print(each)
-            link_name = to_image_name(url, each)
+            link_name = to_resource_name(url, each)
             filename = os.path.join(dir_name, link_name)
             src = urljoin(url, each)
             response = requests.get(src, stream=True)
