@@ -13,6 +13,8 @@ FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 # URL = 'https://ru.hexlet.io/courses'
 URL = 'https://page-loader.hexlet.repl.co/'
 IMG_URL = 'https://page-loader.hexlet.repl.co/assets/professions/nodejs.png'
+CSS_URL = 'https://page-loader.hexlet.repl.co/assets/application.css'
+# JS_URL = 
 
 
 EXPECTED_HTML = f"{FIXTURES_PATH}/prettify_html.html"
@@ -44,11 +46,10 @@ def test_download(url, expected_result):
 def read(file_path, binary=False):
     if binary:
         with open(file_path, 'rb') as data:
-            result = data.read()
+            return data.read()
     else:
         with open(file_path, 'r') as data:
-            result = data.read()
-    return result
+            return data.read()
 
 
 @pytest.mark.parametrize('url, expected_filename',

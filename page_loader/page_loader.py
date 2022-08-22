@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import os
 from page_loader.name import to_filename, to_dir, to_resource_name
 import shutil
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 import time
 
 
@@ -44,7 +44,10 @@ def download_resources(url, dir_name, soup):
     resources.extend(images)
     scripts = get_tags_links('script', 'src', soup)
     resources.extend(scripts)
-    download_links(url, resources, dir_name)
+    for resource in resources:
+        link = urlparse(resource)
+        if link.netloc == urlparse(url).netloc or link.netloc == '':
+            download_links(url, resource, dir_name)
 
 
 def get_tags_links(tag, attribute, soup):
@@ -55,19 +58,16 @@ def get_tags_links(tag, attribute, soup):
     return tags_links
 
 
-def download_links(url, list_of_links, dir_name):
-    for each in list_of_links:
-        try:
-            print(each)
-            link_name = to_resource_name(url, each)
-            filename = os.path.join(dir_name, link_name)
-            src = urljoin(url, each)
-            response = requests.get(src, stream=True)
-            time.sleep(1)
-            with open(filename, 'wb') as out_file:
-                shutil.copyfileobj(response.raw, out_file)
-        except:
-            print('  An error occured. Continuing.')
+def download_links(url, link, dir_name):
+    link_name = to_resource_name(url, link)
+    filename = os.path.join(dir_name, link_name)
+    src = urljoin(url, link)
+    response = requests.get(src, stream=True)
+    time.sleep(1)
+    with open(filename, 'wb') as out_file:
+        shutil.copyfileobj(response.raw, out_file)
+        # except:
+        #     print('  An error occured. Continuing.')
     print('Done.')
 
 
@@ -78,3 +78,18 @@ def write(file_path, data, binary=False):
     else:
         with open(file_path, 'wb') as f:
             f.write(data)
+
+
+    # for each in list_of_links:
+    #     try:
+    #         print(each)
+    #         link_name = to_resource_name(url, each)
+    #         filename = os.path.join(dir_name, link_name)
+    #         src = urljoin(url, each)
+    #         response = requests.get(src, stream=True)
+    #         time.sleep(1)
+    #         with open(filename, 'wb') as out_file:
+    #             shutil.copyfileobj(response.raw, out_file)
+    #     except:
+    #         print('  An error occured. Continuing.')
+    # print('Done.')
