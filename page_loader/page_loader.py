@@ -1,14 +1,14 @@
-import requests
-from bs4 import BeautifulSoup
 import os
+import requests
+import shutil
+from bs4 import BeautifulSoup
 from page_loader.name import to_filename, to_dir, to_resource_name
 from page_loader.resources import get_resources
-import shutil
 from urllib.parse import urljoin, urlparse
-import time
 
 
 def download(url, filepath=os.getcwd()):
+    """Download html and resources from url"""
     new_file_name = os.path.join(filepath, to_filename(url))
     dir_name = to_dir(url)
     dir_path = os.path.join(filepath, dir_name)
@@ -49,7 +49,6 @@ def download_links(url, link, dir_name):
     filename = os.path.join(dir_name, link_name)
     src = urljoin(url, link)
     response = requests.get(src, stream=True)
-    time.sleep(1)
     with open(filename, 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
 
