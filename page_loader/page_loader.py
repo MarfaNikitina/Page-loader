@@ -2,38 +2,24 @@ import requests
 from bs4 import BeautifulSoup
 import os
 from page_loader.name import to_filename, to_dir, to_resource_name
+from page_loader.resources import get_resources
 import shutil
 from urllib.parse import urljoin, urlparse
 import time
 
 
 def download(url, filepath=os.getcwd()):
-    new_fp = os.path.join(filepath, to_filename(url))
-    response = requests.get(url)
+    new_file_name = os.path.join(filepath, to_filename(url))
     dir_name = to_dir(url)
     dir_path = os.path.join(filepath, dir_name)
+    response = requests.get(url)
     if not os.path.exists(dir_path):
         os.mkdir(dir_path)
     soup = BeautifulSoup(response.content, 'html.parser')
     download_resources(url, dir_path, soup)
-    resources = []
-    images = [img for img in soup.findAll('img')]
-    links = [link for link in soup.findAll('link')]
-    scripts = [
-        script for script in soup.findAll('script') if script.get('src') is not None
-    ]
-    resources.extend(images)
-    resources.extend(links)
-    resources.extend(scripts)
-    for each in resources:
-        if each.get('href') is not None:
-            resource_name = to_resource_name(url, each['href'])
-            each['href'] = os.path.join(dir_name, resource_name)
-        else:
-            resource_name = to_resource_name(url, each['src'])
-            each['src'] = os.path.join(dir_name, resource_name)
-    write(new_fp, soup.prettify())
-    return new_fp
+    resources, html = get_resources(url, dir_name)
+    save(new_file_name, html)
+    return new_file_name
 
 
 def download_resources(url, dir_name, soup):
@@ -66,12 +52,9 @@ def download_links(url, link, dir_name):
     time.sleep(1)
     with open(filename, 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
-        # except:
-        #     print('  An error occured. Continuing.')
-    print('Done.')
 
 
-def write(file_path, data, binary=False):
+def save(file_path, data, binary=False):
     if not binary:
         with open(file_path, 'w') as f:
             f.write(data)
@@ -93,3 +76,21 @@ def write(file_path, data, binary=False):
     #     except:
     #         print('  An error occured. Continuing.')
     # print('Done.')
+    
+    
+    # resources = []
+    # images = [img for img in soup.findAll('img')]
+    # links = [link for link in soup.findAll('link')]
+    # scripts = [
+    #     script for script in soup.findAll('script') if script.get('src') is not None
+    # ]
+    # resources.extend(images)
+    # resources.extend(links)
+    # resources.extend(scripts)
+    # for each in resources:
+    #     if each.get('href') is not None:
+    #         resource_name = to_resource_name(url, each['href'])
+    #         each['href'] = os.path.join(dir_name, resource_name)
+    #     else:
+    #         resource_name = to_resource_name(url, each['src'])
+    #         each['src'] = os.path.join(dir_name, resource_name)
