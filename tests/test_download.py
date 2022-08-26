@@ -14,15 +14,19 @@ FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 URL = 'https://page-loader.hexlet.repl.co/'
 IMG_URL = 'https://page-loader.hexlet.repl.co/assets/professions/nodejs.png'
 CSS_URL = 'https://page-loader.hexlet.repl.co/assets/application.css'
-# JS_URL = 
+JS_URL = 'https://page-loader.hexlet.repl.co/script.js'
 
 
 EXPECTED_HTML = f"{FIXTURES_PATH}/prettify_html.html"
 EXPECTED_IMG = f"{FIXTURES_PATH}/img.png"
+EXPECTED_CSS = f"{FIXTURES_PATH}/fixture_css.css"
+EXPECTED_JS = f"{FIXTURES_PATH}/fixture_scripts.css"
 
 
 DOWNLOADED_HTML = 'page-loader-hexlet-repl-co-.html'
 DOWNLOADED_IMG = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--assets-professions-nodejs.png'
+DOWNLOADED_CSS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--assets-application.css"
+DOWNLOADED_JS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--script.js"
 
 
 @pytest.mark.parametrize('url, expected_result',
