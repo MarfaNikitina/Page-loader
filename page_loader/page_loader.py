@@ -1,10 +1,16 @@
 import os
 import requests
 import shutil
+import logging.config
 from bs4 import BeautifulSoup
 from page_loader.name import to_filename, to_dir, to_resource_name
 from page_loader.resources import get_resources
 from urllib.parse import urljoin, urlparse
+from page_loader.log import LOGGING_CONFIG
+from page_loader.log import logger
+
+
+logging.config.dictConfig(LOGGING_CONFIG)
 
 
 def download(url, filepath=os.getcwd()):
@@ -14,10 +20,13 @@ def download(url, filepath=os.getcwd()):
     dir_path = os.path.join(filepath, dir_name)
     response = requests.get(url)
     if not os.path.exists(dir_path):
+        logger.info(f'Create directory {dir_path}')
         os.mkdir(dir_path)
     soup = BeautifulSoup(response.content, 'html.parser')
-    download_resources(url, dir_path, soup)
     resources, html = get_resources(url, dir_name)
+    logger.info(f'Downloading resources')
+    download_resources(url, dir_path, soup)
+    logger.info(f'Downloading html from {url}')
     save(new_file_name, html)
     return new_file_name
 
