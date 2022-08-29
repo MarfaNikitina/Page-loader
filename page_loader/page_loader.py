@@ -19,9 +19,10 @@ def download(url, filepath=os.getcwd()):
     dir_name = to_dir(url)
     dir_path = os.path.join(filepath, dir_name)
     response = requests.get(url)
-    if not os.path.exists(dir_path):
-        logger.info(f'Create directory {dir_path}')
-        os.mkdir(dir_path)
+    # if not os.path.exists(dir_path):
+    #     logger.info(f'Create directory {dir_path}')
+    #     os.mkdir(dir_path)
+    create_directory(dir_path)
     soup = BeautifulSoup(response.content, 'html.parser')
     resources, html = get_resources(url, dir_name)
     logger.info(f'Downloading resources')
@@ -29,6 +30,14 @@ def download(url, filepath=os.getcwd()):
     logger.info(f'Downloading html from {url}')
     save(new_file_name, html)
     return new_file_name
+
+
+def create_directory(dir_path):
+    if not os.path.exists(dir_path):
+        logger.info(f'Create directory {dir_path}')
+        os.mkdir(dir_path)
+    else:
+        logger.info(f'Directory {dir_path} has been already created.')
 
 
 def download_resources(url, dir_name, soup):
