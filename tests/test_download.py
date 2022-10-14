@@ -10,8 +10,8 @@ TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
 FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 
 
-# URL = 'https://ru.hexlet.io/courses'
-URL = 'https://page-loader.hexlet.repl.co/'
+# URL1 = 'https://ru.hexlet.io/courses'
+URL = 'https://page-loader.hexlet.repl.co'
 IMG_URL = 'https://page-loader.hexlet.repl.co/assets/professions/nodejs.png'
 CSS_URL = 'https://page-loader.hexlet.repl.co/assets/application.css'
 JS_URL = 'https://page-loader.hexlet.repl.co/script.js'
@@ -20,7 +20,7 @@ JS_URL = 'https://page-loader.hexlet.repl.co/script.js'
 EXPECTED_HTML = f"{FIXTURES_PATH}/prettify_html.html"
 EXPECTED_IMG = f"{FIXTURES_PATH}/img.png"
 EXPECTED_CSS = f"{FIXTURES_PATH}/fixture_css.css"
-EXPECTED_JS = f"{FIXTURES_PATH}/fixture_scripts.css"
+EXPECTED_JS = f"{FIXTURES_PATH}/fixture_scripts.js"
 
 
 DOWNLOADED_HTML = 'page-loader-hexlet-repl-co-.html'
@@ -34,17 +34,25 @@ DOWNLOADED_JS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--s
 def test_download(url, expected_result):
     html_expected = read(EXPECTED_HTML)
     img_expected = read(EXPECTED_IMG, binary=True)
+    css_expected = read(EXPECTED_CSS, binary=True)
+    js_expected = read(EXPECTED_JS, binary=True)
 
-    with requests_mock.Mocker() as mock:
-        with tempfile.TemporaryDirectory() as tmpdir:
-            mock.get(URL, text=html_expected)
-            mock.get(IMG_URL, content=img_expected)
-            download(URL, tmpdir)
-            actual_html = read(os.path.join(tmpdir, DOWNLOADED_HTML))
-            assert actual_html == html_expected
+    with requests_mock.Mocker() as mock, tempfile.TemporaryDirectory() as tmpdir:
+        mock.get(URL, text=html_expected)
+        mock.get(IMG_URL, content=img_expected)
+        mock.get(CSS_URL, content=css_expected)
+        mock.get(JS_URL, content=js_expected)
+        download(URL, tmpdir)
 
-            actual_img = read(os.path.join(tmpdir, DOWNLOADED_IMG), binary=True)
-            assert actual_img == img_expected
+        actual_html = read(os.path.join(tmpdir, DOWNLOADED_HTML))
+        actual_js = read(os.path.join(tmpdir, DOWNLOADED_JS), binary=True)
+        actual_css = read(os.path.join(tmpdir, DOWNLOADED_CSS), binary=True)
+        actual_img = read(os.path.join(tmpdir, DOWNLOADED_IMG), binary=True)
+
+        assert actual_html == html_expected
+        assert actual_img == img_expected
+        assert actual_css == css_expected
+        assert actual_js == js_expected
 
 
 def read(file_path, binary=False):

@@ -16,11 +16,22 @@ LOGGING_CONFIG = {
             'class': 'logging.StreamHandler', 
             'formatter': 'default_formatter',
         },
+        'file_handler': {
+            'class': 'logging.FileHandler',
+            'level': 'ERROR',
+            'filename': '.page_loader_logging.log',
+            'formatter': 'default_formatter',
+        }
     },
     'loggers': {
-        'logger': {
+        'logger_info': {
             'handlers': ['stream_handler'],
             'level': 'DEBUG',
+            'propagate': True
+        },
+        'logger_error': {
+            'handlers': ['file_handler'],
+            'level': 'ERROR',
             'propagate': True
         }
     }
@@ -28,4 +39,5 @@ LOGGING_CONFIG = {
 
 
 logging.config.dictConfig(LOGGING_CONFIG)
-logger = logging.getLogger('logger')
+logger_info = logging.getLogger('logger_info')
+logger_error = logging.getLogger('logger_error')

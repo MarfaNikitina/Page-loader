@@ -7,7 +7,7 @@ from page_loader.name import to_filename, to_dir, to_resource_name
 from page_loader.resources import get_resources
 from urllib.parse import urljoin, urlparse
 from page_loader.log import LOGGING_CONFIG
-from page_loader.log import logger
+from page_loader.log import logger_info, logger_error
 
 
 logging.config.dictConfig(LOGGING_CONFIG)
@@ -25,19 +25,19 @@ def download(url, filepath=os.getcwd()):
     create_directory(dir_path)
     soup = BeautifulSoup(response.content, 'html.parser')
     resources, html = get_resources(url, dir_name)
-    logger.info(f'Downloading resources')
+    logger_info.info(f'Downloading resources')
     download_resources(url, dir_path, soup)
-    logger.info(f'Downloading html from {url}')
+    logger_info.info(f'Downloading html from {url}')
     save(new_file_name, html)
     return new_file_name
 
 
 def create_directory(dir_path):
     if not os.path.exists(dir_path):
-        logger.info(f'Create directory {dir_path}')
+        logger_info.info(f'Create directory {dir_path}')
         os.mkdir(dir_path)
     else:
-        logger.info(f'Directory {dir_path} has been already created.')
+        logger_info.info(f'Directory {dir_path} has been already created.')
 
 
 def download_resources(url, dir_name, soup):
