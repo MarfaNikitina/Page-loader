@@ -76,36 +76,3 @@ def save(file_path, data, binary=False):
     else:
         with open(file_path, 'wb') as f:
             f.write(data)
-
-
-    # for each in list_of_links:
-    #     try:
-    #         print(each)
-    #         link_name = to_resource_name(url, each)
-    #         filename = os.path.join(dir_name, link_name)
-    #         src = urljoin(url, each)
-    #         response = requests.get(src, stream=True)
-    #         time.sleep(1)
-    #         with open(filename, 'wb') as out_file:
-    #             shutil.copyfileobj(response.raw, out_file)
-    #     except:
-    #         print('  An error occured. Continuing.')
-    # print('Done.')
-    
-    
-    # resources = []
-    # images = [img for img in soup.findAll('img')]
-    # links = [link for link in soup.findAll('link')]
-    # scripts = [
-    #     script for script in soup.findAll('script') if script.get('src') is not None
-    # ]
-    # resources.extend(images)
-    # resources.extend(links)
-    # resources.extend(scripts)
-    # for each in resources:
-    #     if each.get('href') is not None:
-    #         resource_name = to_resource_name(url, each['href'])
-    #         each['href'] = os.path.join(dir_name, resource_name)
-    #     else:
-    #         resource_name = to_resource_name(url, each['src'])
-    #         each['src'] = os.path.join(dir_name, resource_name)
