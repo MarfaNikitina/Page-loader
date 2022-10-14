@@ -11,14 +11,14 @@ FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 
 
 # URL1 = 'https://ru.hexlet.io/courses'
-URL = 'https://page-loader.hexlet.repl.co'
+URL = 'https://page-loader.hexlet.repl.co/'
 IMG_URL = 'https://page-loader.hexlet.repl.co/assets/professions/nodejs.png'
 CSS_URL = 'https://page-loader.hexlet.repl.co/assets/application.css'
 JS_URL = 'https://page-loader.hexlet.repl.co/script.js'
 
-
+ORIGINAL_HTML = f"{FIXTURES_PATH}/original_html.html"
 EXPECTED_HTML = f"{FIXTURES_PATH}/prettify_html.html"
-EXPECTED_IMG = f"{FIXTURES_PATH}/img.png"
+EXPECTED_IMG = f"{FIXTURES_PATH}/fixture_img.png"
 EXPECTED_CSS = f"{FIXTURES_PATH}/fixture_css.css"
 EXPECTED_JS = f"{FIXTURES_PATH}/fixture_scripts.js"
 
@@ -29,10 +29,8 @@ DOWNLOADED_CSS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--
 DOWNLOADED_JS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--script.js"
 
 
-@pytest.mark.parametrize('url, expected_result',
-                         [('https://page-loader.hexlet.repl.co/', 'page-loader-hexlet-repl-co-.html')])
-def test_download(url, expected_result):
-    html_expected = read(EXPECTED_HTML)
+def test_download():
+    html_expected = read(ORIGINAL_HTML)
     img_expected = read(EXPECTED_IMG, binary=True)
     css_expected = read(EXPECTED_CSS, binary=True)
     js_expected = read(EXPECTED_JS, binary=True)
@@ -76,41 +74,8 @@ def test_to_dir(url, expected_dir_name):
     assert to_dir(url) == expected_dir_name
 
 
-
-# @pytest.mark.parametrize('file_path, url, res_file_path',
-#                          [('./tmp', 'https://ru.hexlet.io/courses', 'ru-hexlet-io-courses.txt')])
-# def test_download(url, file_path, res_file_path):
-#     fixtures_file = f"{FIXTURES_PATH}/{res_file_path}"
-#     with open(fixtures_file, 'r') as data:
-#         expected = data.read()
-#     result_file = download(file_path, url,  output=os.getcwd())
-#     with open(result_file, 'r') as data:
-#         result = data.read()
-#     assert result == expected
-# 
-# 
-# 
-# def get_fixture_path(name):
-#     return os.path.join('fixtures', name)
-# 
-# 
-# file_name = 'before.html'
-# src = get_fixture_path(file_name)
-# 
-# 
-# @pytest.fixture(scope='module')
-# def expected():
-#     return read(get_fixture_path('after.html'))
-# 
-# 
-# @pytest.fixture
-# def dest_file(tmpdir):
-#     dest = tmpdir.join(file_name)
-#     shutil.copyfile(src, dest)
-#     return dest
-# 
-# 
-# def test_prettify(dest_file, expected):
-#     prettify_html_file(dest_file)
-#     actual = read(dest_file)
-    # assert actual == expected
+def test_directory_not_exist():
+    try:
+        download(URL, 'some_dir')
+    except FileNotFoundError:
+        print(f"Directory 'some_dir' doesn't exist")

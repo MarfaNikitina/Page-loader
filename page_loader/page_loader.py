@@ -19,10 +19,8 @@ def download(url, filepath=os.getcwd()):
     dir_name = to_dir(url)
     dir_path = os.path.join(filepath, dir_name)
     response = requests.get(url)
-    # if not os.path.exists(dir_path):
-    #     logger.info(f'Create directory {dir_path}')
-    #     os.mkdir(dir_path)
     create_directory(dir_path)
+
     soup = BeautifulSoup(response.content, 'html.parser')
     resources, html = get_resources(url, dir_name)
     logger_info.info(f'Downloading resources')
