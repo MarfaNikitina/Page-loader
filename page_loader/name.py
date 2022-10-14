@@ -1,15 +1,8 @@
 import os
 import re
-from urllib.parse import urlparse
+# from urllib.parse import urlparse
 
 
-# def replace_items(url):
-#     result = re.sub(r"[^0-9a-zA-Z]", "-", f"{url}")
-#     return result
-
-
-# def to_file_name1(url):
-#     parsed_url = urlparse(url)
 def to_filename(url):
     url_without_extension = os.path.splitext(url)[0]
     # url_without_schema = url_without_extension.split('//')[1:]

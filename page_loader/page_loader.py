@@ -23,7 +23,7 @@ def download(url, filepath=os.getcwd()):
 
     soup = BeautifulSoup(response.content, 'html.parser')
     resources, html = get_resources(url, dir_name)
-    logger_info.info(f'Downloading resources')
+    logger_info.info(f'Downloading resources from {url}')
     download_resources(url, dir_path, soup)
     logger_info.info(f'Downloading html from {url}')
     save(new_file_name, html)

@@ -13,7 +13,7 @@ LOGGING_CONFIG = {
     },
     'handlers': {
         'stream_handler': {
-            'class': 'logging.StreamHandler', 
+            'class': 'logging.StreamHandler',
             'formatter': 'default_formatter',
         },
         'file_handler': {

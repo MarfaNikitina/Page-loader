@@ -12,7 +12,7 @@ def get_resources(url, dir_name):
     images = [img for img in data.findAll('img')]
     links = [link for link in data.findAll('link')]
     scripts = [
-        script for script in data.findAll('script') if script.get('src') is not None
+        s for s in data.findAll('script') if s.get('src') is not None
     ]
     resources.extend(images)
     resources.extend(links)
