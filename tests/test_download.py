@@ -15,7 +15,9 @@ URL = 'https://page-loader.hexlet.repl.co/'
 IMG_URL = 'https://page-loader.hexlet.repl.co/assets/professions/nodejs.png'
 CSS_URL = 'https://page-loader.hexlet.repl.co/assets/application.css'
 JS_URL = 'https://page-loader.hexlet.repl.co/script.js'
+COURSES_URL = 'https://page-loader.hexlet.repl.co/courses'
 
+EXPECTED_COURSES = f"{FIXTURES_PATH}/fixture_courses.txt"
 ORIGINAL_HTML = f"{FIXTURES_PATH}/original_html.html"
 EXPECTED_HTML = f"{FIXTURES_PATH}/prettify_html.html"
 EXPECTED_IMG = f"{FIXTURES_PATH}/fixture_img.png"
@@ -24,22 +26,26 @@ EXPECTED_JS = f"{FIXTURES_PATH}/fixture_scripts.js"
 
 
 DOWNLOADED_HTML = 'page-loader-hexlet-repl-co-.html'
+DOWNLOADED_TXT = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--courses'
 DOWNLOADED_IMG = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--assets-professions-nodejs.png'
 DOWNLOADED_CSS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--assets-application.css"
 DOWNLOADED_JS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--script.js"
 
 
 def test_download():
-    html_expected = read(ORIGINAL_HTML)
+    html_original = read(ORIGINAL_HTML)
+    html_expected = read(EXPECTED_HTML)
     img_expected = read(EXPECTED_IMG, binary=True)
     css_expected = read(EXPECTED_CSS, binary=True)
     js_expected = read(EXPECTED_JS, binary=True)
+    txt_expected = read(EXPECTED_COURSES, binary=True)
 
     with requests_mock.Mocker() as mock, tempfile.TemporaryDirectory() as tmpdir:
-        mock.get(URL, text=html_expected)
+        mock.get(URL, text=html_original)
         mock.get(IMG_URL, content=img_expected)
         mock.get(CSS_URL, content=css_expected)
         mock.get(JS_URL, content=js_expected)
+        mock.get(COURSES_URL, content=txt_expected)
         download(URL, tmpdir)
 
         actual_html = read(os.path.join(tmpdir, DOWNLOADED_HTML))
