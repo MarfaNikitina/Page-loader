@@ -8,6 +8,7 @@ from page_loader.resources import get_resources
 from urllib.parse import urljoin, urlparse
 from page_loader.log import LOGGING_CONFIG
 from page_loader.log import logger_info, logger_error
+from progress.bar import IncrementalBar
 
 
 logging.config.dictConfig(LOGGING_CONFIG)
@@ -20,6 +21,7 @@ def download(url, filepath=os.getcwd()):
     dir_path = os.path.join(filepath, dir_name)
     create_directory(dir_path)
     resources, html = get_resources(url, dir_name)
+
     logger_info.info(f'Downloading resources from {url}')
     download_resources(resources, url, dir_path)
     logger_info.info(f'Downloading html from {url}')
@@ -36,10 +38,16 @@ def create_directory(dir_path):
 
 
 def download_resources(resources, url, dir_name):
-    for resource in resources:
-        link = urlparse(resource)
-        if link.netloc == urlparse(url).netloc or link.netloc == '':
-            download_links(url, resource, dir_name)
+    with IncrementalBar(
+            'Processing',
+            max=len(resources),
+            suffix='%(percent).1f%% - %(eta)ds'
+    ) as bar:
+        for resource in resources:
+            bar.next()
+            link = urlparse(resource)
+            if link.netloc == urlparse(url).netloc or link.netloc == '':
+                download_links(url, resource, dir_name)
 
 
 def download_links(url, link, dir_name):
