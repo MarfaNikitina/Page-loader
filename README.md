@@ -5,3 +5,12 @@
 [![Pytest check](https://github.com/MarfaNikitina/python-project-lvl3/actions/workflows/pytest-check.yml/badge.svg)](https://github.com/MarfaNikitina/python-project-lvl3/actions/workflows/pytest-check.yml)
 [![linter check](https://github.com/MarfaNikitina/python-project-lvl3/actions/workflows/linter-check.yml/badge.svg)](https://github.com/MarfaNikitina/python-project-lvl3/actions/workflows/linter-check.yml)
 [![Actions Status](https://github.com/MarfaNikitina/python-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/MarfaNikitina/python-project-lvl3/actions)
+
+
+В проекте реализовано:
+<h1>Рage-loader</h1> - утилита командной строки ,которая скачивает страницу из сети и кладет в указанную существующую директорию (по умолчанию в директорию запуска программы).
+Программа выводит на экран полный путь к загруженному файлу:
+
+[![asciicast](https://asciinema.org/a/XAHVzpqKRHuDtGelgXOKa99aW.svg)](https://asciinema.org/a/XAHVzpqKRHuDtGelgXOKa99aW)
+
+Так же, утилита скачивает со страницы необходимые ресурсы (изображения, css, js-файлы).
