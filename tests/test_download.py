@@ -4,7 +4,7 @@ from page_loader.name import to_filename, to_dir
 from page_loader.page_loader import download
 import tempfile
 import requests_mock
-
+from page_loader.resources import get_resources
 
 TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
 FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
@@ -57,6 +57,23 @@ def test_download():
         assert actual_img == img_expected
         assert actual_css == css_expected
         assert actual_js == js_expected
+
+
+def test_get_resources():
+    html_original = read(ORIGINAL_HTML)
+    html_expected = read(EXPECTED_HTML)
+
+    with requests_mock.Mocker() as mock:
+        mock.get(URL, text=html_original)
+        resources, html = get_resources(URL, 'page-loader-hexlet-repl-co-_files')
+        expected_resources = [
+            '/assets/application.css',
+            '/courses',
+            '/assets/professions/nodejs.png',
+            '/script.js']
+
+        assert html_expected == html
+        assert expected_resources == resources
 
 
 def read(file_path, binary=False):

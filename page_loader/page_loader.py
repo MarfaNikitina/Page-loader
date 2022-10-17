@@ -39,15 +39,22 @@ def create_directory(dir_path):
 
 def download_resources(resources, url, dir_name):
     with IncrementalBar(
-            'Processing',
+            'Downloading:',
             max=len(resources),
             suffix='%(percent).1f%% - %(eta)ds'
     ) as bar:
-        for resource in resources:
-            bar.next()
-            link = urlparse(resource)
-            if link.netloc == urlparse(url).netloc or link.netloc == '':
-                download_links(url, resource, dir_name)
+        try:
+            for resource in resources:
+                bar.next()
+                link = urlparse(resource)
+                if link.netloc == urlparse(url).netloc or link.netloc == '':
+                    download_links(url, resource, dir_name)
+        except Exception as e:
+            cause_info = (e.__class__, e, e.__traceback__)
+            logging.debug(str(e), exc_info=cause_info)
+            logging.warning(
+                f"Page resource {resource} wasn't downloaded"
+            )
 
 
 def download_links(url, link, dir_name):
