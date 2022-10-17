@@ -22,4 +22,4 @@ def to_resource_name(url, path):
     path_to_name = '-'.join(path.split('/'))
     prefix = url.split('//')[1].split('/')[0]
     formatted_prefix = '-'.join(prefix.split('.'))
-    return f"{formatted_prefix}-{path_to_name}"
+    return f"{formatted_prefix}{path_to_name}"

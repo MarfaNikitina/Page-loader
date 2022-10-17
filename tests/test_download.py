@@ -26,10 +26,10 @@ EXPECTED_JS = f"{FIXTURES_PATH}/fixture_scripts.js"
 
 
 DOWNLOADED_HTML = 'page-loader-hexlet-repl-co-.html'
-DOWNLOADED_TXT = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--courses'
-DOWNLOADED_IMG = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--assets-professions-nodejs.png'
-DOWNLOADED_CSS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--assets-application.css"
-DOWNLOADED_JS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co--script.js"
+DOWNLOADED_TXT = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-courses'
+DOWNLOADED_IMG = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-professions-nodejs.png'
+DOWNLOADED_CSS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-application.css"
+DOWNLOADED_JS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-script.js"
 
 
 def test_download():
