@@ -3,6 +3,7 @@ import os
 from page_loader.name import to_filename, to_dir
 from page_loader.page_loader import download
 import tempfile
+import requests
 import requests_mock
 from page_loader.resources import get_resources
 
@@ -65,7 +66,8 @@ def test_get_resources():
 
     with requests_mock.Mocker() as mock:
         mock.get(URL, text=html_original)
-        resources, html = get_resources(URL, 'page-loader-hexlet-repl-co-_files')
+        response = requests.get(URL)
+        resources, html = get_resources(response, URL, 'page-loader-hexlet-repl-co-_files')
         expected_resources = [
             '/assets/application.css',
             '/courses',
@@ -104,8 +106,8 @@ def test_directory_not_exist():
         print(f"Directory 'some_dir' doesn't exist")
 
 
-def test_exception():
+def test_false_response():
     with pytest.raises(Exception) as e:
         download('https://notexist.com')
 
-    assert str(e.value) == "Page doesn't exist"
+        assert str(e.value) == requests.RequestException

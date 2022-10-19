@@ -19,7 +19,7 @@ def download(url, filepath=os.getcwd()):
     if not os.path.exists(filepath):
         logger_info.info(f"Directory {filepath} doesn't exist."
                          f" Please, choose another directory.")
-        raise Exception
+        raise FileNotFoundError
     new_file_name = os.path.join(filepath, to_filename(url))
     dir_name = to_dir(url)
     dir_path = os.path.join(filepath, dir_name)
