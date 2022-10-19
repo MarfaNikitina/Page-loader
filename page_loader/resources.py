@@ -18,6 +18,7 @@ def get_data(url):
         logger_info.info(f'Page {url} exists. Getting response. '
                          f'Status_code {status}. '
                          f'Success.')
+        response.raise_for_status()
     except requests.RequestException as error:
         logger_error.error(error)
         logger_info.info(f'Page {url} not found or status_code is not 200')
