@@ -5,7 +5,7 @@ import logging.config
 # from bs4 import BeautifulSoup
 from page_loader.name import to_filename, to_dir, to_resource_name
 from page_loader.resources import get_resources, get_data
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin
 from page_loader.log import LOGGING_CONFIG
 from page_loader.log import logger_info, logger_error
 from progress.bar import IncrementalBar
