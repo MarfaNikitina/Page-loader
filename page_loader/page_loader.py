@@ -52,9 +52,9 @@ def download_resources(resources, url, dir_name):
         try:
             for resource in resources:
                 bar.next()
-                link = urlparse(resource)
-                if link.netloc == urlparse(url).netloc or link.netloc == '':
-                    download_links(url, resource, dir_name)
+                # link = urlparse(resource)
+                # if link.netloc == urlparse(url).netloc or link.netloc == '':
+                download_links(url, resource, dir_name)
         except Exception as e:
             cause_info = (e.__class__, e, e.__traceback__)
             logger_info.info(str(e), exc_info=cause_info)
