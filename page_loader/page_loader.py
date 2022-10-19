@@ -2,7 +2,6 @@ import os
 import requests
 import shutil
 import logging.config
-# from bs4 import BeautifulSoup
 from page_loader.name import to_filename, to_dir, to_resource_name
 from page_loader.resources import get_resources, get_data
 from urllib.parse import urljoin
@@ -52,8 +51,6 @@ def download_resources(resources, url, dir_name):
         try:
             for resource in resources:
                 bar.next()
-                # link = urlparse(resource)
-                # if link.netloc == urlparse(url).netloc or link.netloc == '':
                 download_links(url, resource, dir_name)
         except Exception as e:
             cause_info = (e.__class__, e, e.__traceback__)
