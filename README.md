@@ -17,3 +17,16 @@
 
 [![asciicast](https://asciinema.org/a/E6L5nrVldNNwRxdtitgpoFghH.svg)](https://asciinema.org/a/E6L5nrVldNNwRxdtitgpoFghH)
 
+<h3>При передаче в функцию загрузки ошибочных аргументов, вызываются исключения и в консоль выводятся сообщения об ошибке</h3>
+
+<h3>Несуществующая директория для записи:</h3>
+
+[![asciicast](https://asciinema.org/a/FcDtunP2E25VQcDBnz4Ke2KQt.svg)](https://asciinema.org/a/FcDtunP2E25VQcDBnz4Ke2KQt)
+
+<h3>Несуществующая интернет-страница:</h3>
+
+[![asciicast](https://asciinema.org/a/lr5nf9tgPCnnBhbNOljvR3PKI.svg)](https://asciinema.org/a/lr5nf9tgPCnnBhbNOljvR3PKI)
+
+
+
+
