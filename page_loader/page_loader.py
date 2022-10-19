@@ -4,7 +4,7 @@ import shutil
 import logging.config
 # from bs4 import BeautifulSoup
 from page_loader.name import to_filename, to_dir, to_resource_name
-from page_loader.resources import get_resources
+from page_loader.resources import get_resources, get_data
 from urllib.parse import urljoin, urlparse
 from page_loader.log import LOGGING_CONFIG
 from page_loader.log import logger_info, logger_error
@@ -16,12 +16,16 @@ logging.config.dictConfig(LOGGING_CONFIG)
 
 def download(url, filepath=os.getcwd()):
     """Download html and resources from url"""
+    if not os.path.exists(filepath):
+        logger_info.info(f"Directory {filepath} doesn't exist."
+                         f" Please, choose another directory.")
+        raise Exception
     new_file_name = os.path.join(filepath, to_filename(url))
     dir_name = to_dir(url)
     dir_path = os.path.join(filepath, dir_name)
+    response = get_data(url)
+    resources, html = get_resources(response, url, dir_name)
     create_directory(dir_path)
-    resources, html = get_resources(url, dir_name)
-
     logger_info.info(f'Downloading resources from {url}')
     download_resources(resources, url, dir_path)
     logger_info.info(f'Downloading html from {url}')
@@ -38,6 +42,8 @@ def create_directory(dir_path):
 
 
 def download_resources(resources, url, dir_name):
+    if len(resources) == 0:
+        logger_info.info(f'Downloading resources from {url}')
     with IncrementalBar(
             'Downloading:',
             max=len(resources),
@@ -51,8 +57,8 @@ def download_resources(resources, url, dir_name):
                     download_links(url, resource, dir_name)
         except Exception as e:
             cause_info = (e.__class__, e, e.__traceback__)
-            logging.debug(str(e), exc_info=cause_info)
-            logging.warning(
+            logger_info.info(str(e), exc_info=cause_info)
+            logger_error.info(
                 f"Page resource {resource} wasn't downloaded"
             )
 

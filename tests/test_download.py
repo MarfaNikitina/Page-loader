@@ -102,3 +102,10 @@ def test_directory_not_exist():
         download(URL, 'some_dir')
     except FileNotFoundError:
         print(f"Directory 'some_dir' doesn't exist")
+
+
+def test_exception():
+    with pytest.raises(Exception) as e:
+        download('https://notexist.com')
+
+    assert str(e.value) == "Page doesn't exist"

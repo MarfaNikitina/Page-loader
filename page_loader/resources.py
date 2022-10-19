@@ -1,12 +1,31 @@
 from bs4 import BeautifulSoup
+import logging.config
 import requests
 import os
+from page_loader.log import LOGGING_CONFIG
 from page_loader.name import to_resource_name
+from page_loader.log import logger_error, logger_info
 # from urllib.parse import urljoin, urlparse
 
 
-def get_resources(url, dir_name):
-    response = requests.get(url)
+logging.config.dictConfig(LOGGING_CONFIG)
+
+
+def get_data(url):
+    try:
+        response = requests.get(url)
+        status = response.status_code
+        logger_info.info(f'Page {url} exists. Getting response. '
+                         f'Status_code {status}. '
+                         f'Success.')
+    except requests.RequestException as error:
+        logger_error.error(error)
+        logger_info.info(f'Page {url} not found or status_code is not 200')
+        raise Exception(error)
+    return response
+
+
+def get_resources(response, url, dir_name):
     data = BeautifulSoup(response.content, 'html.parser')
     tags = ['img', 'link', 'script']
     resources = [tag for tag in data.findAll(tags)]
