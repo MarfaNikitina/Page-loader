@@ -103,7 +103,7 @@ def test_directory_not_exist():
     try:
         download(URL, 'some_dir')
     except FileNotFoundError:
-        print(f"Directory 'some_dir' doesn't exist")
+        print("Directory 'some_dir' doesn't exist")
 
 
 def test_false_response():
