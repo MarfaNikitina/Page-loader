@@ -31,6 +31,8 @@ def to_dir(url):
 
 def to_resource_name(url, path):
     path_to_name = '-'.join(path.split('/'))
+    if os.path.splitext(path)[1] == '':
+        path_to_name += '.html'
     # prefix = url.split('//')[1].split('/')[0]
     prefix = urlparse(url).netloc
     formatted_prefix = '-'.join(prefix.split('.'))
