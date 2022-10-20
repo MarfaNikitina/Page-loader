@@ -42,10 +42,11 @@ def get_resources(response, url, dir_name):
                 tags_links.append(each.get('src'))
                 resource_name = to_resource_name(url, each['src'])
                 each['src'] = os.path.join(dir_name, resource_name)
-    # result_links = [link for link in tags_links if is_desired_link(link, url)]
     return tags_links, data.prettify()
 
 
 def is_desired_link(link, url):
     parsed = urlparse(link)
     return parsed.netloc == urlparse(url).netloc or parsed.netloc == ''
+
+# result_links = [link for link in tags_links if is_desired_link(link, url)]
