@@ -7,3 +7,4 @@ new_venv
 coverage.xml
 .page_loader_logging.log
 test-coverage-tool
+.DS-Store

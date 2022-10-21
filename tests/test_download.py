@@ -1,6 +1,7 @@
 import pytest
+from urllib.parse import urlparse
 import os
-from page_loader.name import to_filename, to_dir
+from page_loader.name import to_filename, to_dir, to_resource_name
 from page_loader.page_loader import download
 import tempfile
 import requests
@@ -11,43 +12,60 @@ TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
 FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 
 
-# URL1 = 'https://ru.hexlet.io/courses'
-URL = 'https://page-loader.hexlet.repl.co/'
-IMG_URL = 'https://page-loader.hexlet.repl.co/assets/professions/nodejs.png'
-CSS_URL = 'https://page-loader.hexlet.repl.co/assets/application.css'
-JS_URL = 'https://page-loader.hexlet.repl.co/script.js'
-COURSES_URL = 'https://page-loader.hexlet.repl.co/courses'
+TEST_DATA = {
+    'HTML': [
+        'https://page-loader.hexlet.repl.co/',
+        f"{FIXTURES_PATH}/original_html.html",
+        f"{FIXTURES_PATH}/prettify_html.html"
+    ],
+    'IMG': [
+        'https://page-loader.hexlet.repl.co/assets/professions/nodejs.png',
+        f"{FIXTURES_PATH}/fixture_img.png"
+    ],
+    'CSS': [
+        'https://page-loader.hexlet.repl.co/assets/application.css',
+        f"{FIXTURES_PATH}/fixture_css.css"
+    ],
+    'JS': [
+        'https://page-loader.hexlet.repl.co/script.js',
+        f"{FIXTURES_PATH}/fixture_scripts.js"
+    ],
+    'COURSES': [
+        'https://page-loader.hexlet.repl.co/courses',
+        f"{FIXTURES_PATH}/fixture_courses.txt"
+    ]
+}
 
-EXPECTED_COURSES = f"{FIXTURES_PATH}/fixture_courses.txt"
-ORIGINAL_HTML = f"{FIXTURES_PATH}/original_html.html"
-EXPECTED_HTML = f"{FIXTURES_PATH}/prettify_html.html"
-EXPECTED_IMG = f"{FIXTURES_PATH}/fixture_img.png"
-EXPECTED_CSS = f"{FIXTURES_PATH}/fixture_css.css"
-EXPECTED_JS = f"{FIXTURES_PATH}/fixture_scripts.js"
+# DOWNLOADED_HTML = 'page-loader-hexlet-repl-co-.html'
+# DOWNLOADED_TXT = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-courses.html'
+# DOWNLOADED_IMG = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-professions-nodejs.png'
+# DOWNLOADED_CSS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-application.css"
+# DOWNLOADED_JS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-script.js"
 
+URL = TEST_DATA['HTML'][0]
+DOWNLOADED_HTML = to_filename(URL)
+DOWNLOADED_TXT = os.path.join(to_dir(URL), to_resource_name(URL, urlparse(TEST_DATA['COURSES'][0]).path))
+DOWNLOADED_IMG = os.path.join(to_dir(URL), to_resource_name(URL, urlparse(TEST_DATA['IMG'][0]).path))
+DOWNLOADED_CSS = os.path.join(to_dir(URL), to_resource_name(URL, urlparse(TEST_DATA['CSS'][0]).path))
+DOWNLOADED_JS = os.path.join(to_dir(URL), to_resource_name(URL, urlparse(TEST_DATA['JS'][0]).path))
 
-DOWNLOADED_HTML = 'page-loader-hexlet-repl-co-.html'
-DOWNLOADED_TXT = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-courses'
-DOWNLOADED_IMG = 'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-professions-nodejs.png'
-DOWNLOADED_CSS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-application.css"
-DOWNLOADED_JS = "page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-script.js"
 
 
 def test_download():
-    html_original = read(ORIGINAL_HTML)
-    html_expected = read(EXPECTED_HTML)
-    img_expected = read(EXPECTED_IMG, binary=True)
-    css_expected = read(EXPECTED_CSS, binary=True)
-    js_expected = read(EXPECTED_JS, binary=True)
-    txt_expected = read(EXPECTED_COURSES, binary=True)
+    html_original = read(TEST_DATA['HTML'][1])
+    html_expected = read(TEST_DATA['HTML'][2])
+    img_expected = read(TEST_DATA['IMG'][1], binary=True)
+    css_expected = read(TEST_DATA['CSS'][1], binary=True)
+    js_expected = read(TEST_DATA['JS'][1], binary=True)
+    txt_expected = read(TEST_DATA['COURSES'][1], binary=True)
 
     with requests_mock.Mocker() as mock, tempfile.TemporaryDirectory() as tmpdir:
-        mock.get(URL, text=html_original)
-        mock.get(IMG_URL, content=img_expected)
-        mock.get(CSS_URL, content=css_expected)
-        mock.get(JS_URL, content=js_expected)
-        mock.get(COURSES_URL, content=txt_expected)
-        download(URL, tmpdir)
+        mock.get(TEST_DATA['HTML'][0], text=html_original)
+        mock.get(TEST_DATA['IMG'][0], content=img_expected)
+        mock.get(TEST_DATA['CSS'][0], content=css_expected)
+        mock.get(TEST_DATA['JS'][0], content=js_expected)
+        mock.get(TEST_DATA['COURSES'][0], content=txt_expected)
+        download(TEST_DATA['HTML'][0], tmpdir)
 
         actual_html = read(os.path.join(tmpdir, DOWNLOADED_HTML))
         actual_js = read(os.path.join(tmpdir, DOWNLOADED_JS), binary=True)
@@ -61,13 +79,13 @@ def test_download():
 
 
 def test_get_resources():
-    html_original = read(ORIGINAL_HTML)
-    html_expected = read(EXPECTED_HTML)
+    html_original = read(TEST_DATA['HTML'][1])
+    html_expected = read(TEST_DATA['HTML'][2])
 
     with requests_mock.Mocker() as mock:
-        mock.get(URL, text=html_original)
-        response = requests.get(URL)
-        resources, html = get_resources(response, URL, 'page-loader-hexlet-repl-co-_files')
+        mock.get(TEST_DATA['HTML'][0], text=html_original)
+        response = requests.get(TEST_DATA['HTML'][0])
+        resources, html = get_resources(response, TEST_DATA['HTML'][0], 'page-loader-hexlet-repl-co-_files')
         expected_resources = [
             '/assets/application.css',
             '/courses',
@@ -101,7 +119,7 @@ def test_to_dir(url, expected_dir_name):
 
 def test_directory_not_exist():
     try:
-        download(URL, 'some_dir')
+        download(TEST_DATA['HTML'][0], 'some_dir')
     except FileNotFoundError:
         print("Directory 'some_dir' doesn't exist")
 
