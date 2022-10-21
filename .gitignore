@@ -4,3 +4,6 @@ __pycache__
 .coverage
 .idea
 new_venv
+coverage.xml
+.page_loader_logging.log
+test-coverage-tool
