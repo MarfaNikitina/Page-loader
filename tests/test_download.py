@@ -50,7 +50,6 @@ DOWNLOADED_CSS = os.path.join(to_dir(URL), to_resource_name(URL, urlparse(TEST_D
 DOWNLOADED_JS = os.path.join(to_dir(URL), to_resource_name(URL, urlparse(TEST_DATA['JS'][0]).path))
 
 
-
 def test_download():
     html_original = read(TEST_DATA['HTML'][1])
     html_expected = read(TEST_DATA['HTML'][2])
