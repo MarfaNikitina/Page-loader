@@ -1,11 +1,11 @@
 # !/usr/bin/env python3
 # import os
 import sys
-
-from page_loader.page_loader import download
-
-# from page_loader import download
+from page_loader import download
 from page_loader.cli import parse
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 def main():

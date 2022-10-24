@@ -1,48 +1,44 @@
 from bs4 import BeautifulSoup
-import logging.config
+import logging
 import requests
 import os
-from page_loader.log import LOGGING_CONFIG
-from page_loader.name import to_resource_name
-from page_loader.log import logger_error, logger_info
+from page_loader.url import to_resource_name
+# from page_loader.log import logger_error, logger_info
 from urllib.parse import urlparse
-
-
-logging.config.dictConfig(LOGGING_CONFIG)
 
 
 def get_data(url):
     try:
         response = requests.get(url)
         status = response.status_code
-        logger_info.info(f'Page {url} exists. Getting response. '
-                         f'Status_code {status}. '
-                         f'Success.')
+        logging.info(f'Page {url} exists. Getting response.'
+                     f'Status_code {status}.'
+                     f'Success.')
         response.raise_for_status()
     except requests.RequestException as error:
-        logger_error.error(error)
-        logger_info.info(f'Page {url} not found or status_code is not 200')
+        logging.error(error)
+        logging.info(f'Page {url} not found or status_code is not 200')
         raise Exception(error)
     return response
 
 
-def get_resources(response, url, dir_name):
+def prepare_data(response, url, dir_name):
     data = BeautifulSoup(response.content, 'html.parser')
     tags = ['img', 'link', 'script']
     resources = [tag for tag in data.findAll(tags)]
-    tags_links = []
-    for each in resources:
-        if each.get('href') is not None:
-            if is_desired_link(each.get('href'), url):
-                tags_links.append(each.get('href'))
-                resource_name = to_resource_name(url, each['href'])
-                each['href'] = os.path.join(dir_name, resource_name)
-        elif each.get('src') is not None:
-            if is_desired_link(each.get('src'), url):
-                tags_links.append(each.get('src'))
-                resource_name = to_resource_name(url, each['src'])
-                each['src'] = os.path.join(dir_name, resource_name)
-    return tags_links, data.prettify()
+    tag_links = []
+    for tag in resources:
+        if tag.get('href') is not None:
+            if is_desired_link(tag.get('href'), url):
+                tag_links.append(tag.get('href'))
+                resource_name = to_resource_name(url, tag['href'])
+                tag['href'] = os.path.join(dir_name, resource_name)
+        elif tag.get('src') is not None:
+            if is_desired_link(tag.get('src'), url):
+                tag_links.append(tag.get('src'))
+                resource_name = to_resource_name(url, tag['src'])
+                tag['src'] = os.path.join(dir_name, resource_name)
+    return tag_links, data.prettify()
 
 
 def is_desired_link(link, url):
