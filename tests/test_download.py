@@ -50,11 +50,15 @@ def test_prepare_data():
         mock.get(URL, text=html_original)
         resources, html = prepare_data(URL, to_dir(URL))
         expected_resources = [
-            '/assets/application.css',
-            '/courses',
-            '/assets/professions/nodejs.png',
-            '/script.js']
-
+            ('/assets/application.css',
+             'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-application.css'),
+            ('/courses',
+             'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-courses.html'),
+            ('/assets/professions/nodejs.png',
+             'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-professions-nodejs.png'),
+            ('/script.js',
+             'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-script.js')
+        ]
         assert html_expected == html
         assert expected_resources == resources
 
