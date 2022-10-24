@@ -48,8 +48,7 @@ def test_prepare_data():
 
     with requests_mock.Mocker() as mock:
         mock.get(URL, text=html_original)
-        response = requests.get(URL)
-        resources, html = prepare_data(response, URL, to_dir(URL))
+        resources, html = prepare_data(URL, to_dir(URL))
         expected_resources = [
             '/assets/application.css',
             '/courses',

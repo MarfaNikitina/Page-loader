@@ -4,6 +4,7 @@ import sys
 from page_loader import download
 from page_loader.cli import parse
 import logging
+import requests
 
 logging.basicConfig(level=logging.INFO)
 
@@ -16,7 +17,9 @@ def main():
             args.output
         )
         print(result)
-    except Exception:
+    except requests.RequestException as error:
+        logging.error(error)
+        logging.info('Page not found or status_code is not 200')
         sys.exit(1)
 
 

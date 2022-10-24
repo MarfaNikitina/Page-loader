@@ -4,7 +4,7 @@ import shutil
 # import logging.config
 import logging
 from page_loader.url import to_filename, to_dir, to_resource_name
-from page_loader.resources import prepare_data, get_data
+from page_loader.resources import prepare_data
 from urllib.parse import urljoin
 # from page_loader.log import LOGGING_CONFIG
 # from page_loader.log import logger_info, logger_error
@@ -20,8 +20,8 @@ def download(url, filepath=os.getcwd()):
     new_file_name = os.path.join(filepath, to_filename(url))
     dir_name = to_dir(url)
     dir_path = os.path.join(filepath, dir_name)
-    response = get_data(url)
-    resources, html = prepare_data(response, url, dir_name)
+    # response = get_data(url)
+    resources, html = prepare_data(url, dir_name)
     create_directory(dir_path)
     logging.info(f'Downloading resources from {url}')
     download_resources(resources, url, dir_path)
