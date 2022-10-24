@@ -14,6 +14,7 @@ def prepare_data(url, dir_name):
     for tag in resources:
         if tag.get('href') is not None:
             if is_desired_link(tag.get('href'), url):
+                # tag_link = 
                 tag_links.append(tag.get('href'))
                 resource_name = to_resource_name(url, tag['href'])
                 tag['href'] = os.path.join(dir_name, resource_name)

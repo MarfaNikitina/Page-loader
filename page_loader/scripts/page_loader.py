@@ -16,12 +16,12 @@ def main():
             args.url,
             args.output
         )
+        response = requests.get(args.url)
+        response.raise_for_status()
         print(result)
-    except Exception as error:
-        logging.error(error)
+    except Exception as ex:
+        logging.error(ex)
         logging.info('Page not found or status_code is not 200')
-        raise Exception(error)
-    finally:
         sys.exit(1)
 
 
