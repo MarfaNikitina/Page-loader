@@ -21,6 +21,7 @@ def main():
         logging.error(error)
         logging.info('Page not found or status_code is not 200')
         raise Exception(error)
+    finally:
         sys.exit(1)
 
 
