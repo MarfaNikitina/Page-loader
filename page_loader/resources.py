@@ -31,3 +31,9 @@ def prepare_data(url, dir_name):
 def is_desired_link(link, url):
     parsed = urlparse(link)
     return parsed.netloc == urlparse(url).netloc or parsed.netloc == ''
+
+    # tags_ = {
+    #     'img': 'src',
+    #     'link': 'href',
+    #     'script': 'src'
+    # }
