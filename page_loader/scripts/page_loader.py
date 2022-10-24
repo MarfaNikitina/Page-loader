@@ -16,8 +16,6 @@ def main():
             args.url,
             args.output
         )
-        response = requests.get(args.url)
-        response.raise_for_status()
         print(result)
     except Exception as ex:
         logging.error(ex)

@@ -41,7 +41,7 @@ def create_directory(dir_path):
 
 def download_resources(resources, url, dir_name):
     if len(resources) == 0:
-        logging.info(f'Downloading resources from {url}')
+        logging.info(f'No resources for download from {url}')
     with IncrementalBar(
             'Downloading:',
             max=len(resources),
@@ -66,3 +66,12 @@ def download_resource(url, link, dir_name):
     response = requests.get(src, stream=True)
     with open(filename, 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
+
+
+# def download_resource(url, link, dir_name):
+#     link_name = to_resource_name(url, link)
+#     filename = os.path.join(dir_name, link_name)
+#     src = urljoin(url, link)
+#     response = requests.get(src, stream=True)
+#     with open(filename, 'wb') as out_file:
+#         shutil.copyfileobj(response.raw, out_file)
