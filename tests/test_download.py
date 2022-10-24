@@ -1,7 +1,7 @@
 import pytest
-from urllib.parse import urlparse
+# from urllib.parse import urlparse
 import os
-from page_loader.url import to_filename, to_dir, to_resource_name
+from page_loader.url import to_filename, to_dir
 from page_loader.page_loader import download
 import tempfile
 import requests

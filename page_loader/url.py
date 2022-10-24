@@ -19,10 +19,10 @@ def to_dir(url):
     return dir_name
 
 
-def to_resource_name(url, path):
-    desired_path = urlparse(path).path
+def to_resource_name(url, resource_path):
+    desired_path = urlparse(resource_path).path
     path_to_name = '-'.join(desired_path.split('/'))
-    if os.path.splitext(path)[1] == '':
+    if os.path.splitext(resource_path)[1] == '':
         path_to_name += '.html'
     prefix = urlparse(url).netloc
     formatted_prefix = '-'.join(prefix.split('.'))
