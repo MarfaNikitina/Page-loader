@@ -4,7 +4,7 @@ import sys
 from page_loader import download
 from page_loader.cli import parse
 import logging
-import requests
+
 
 logging.basicConfig(level=logging.INFO)
 
