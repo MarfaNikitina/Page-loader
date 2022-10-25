@@ -1,6 +1,6 @@
 import pytest
 import os
-from page_loader.url import to_filename, to_dir
+from page_loader.url import to_filename
 from page_loader.page_loader import download
 import tempfile
 import requests
