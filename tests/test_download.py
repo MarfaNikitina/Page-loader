@@ -48,7 +48,7 @@ def test_prepare_data():
 
     with requests_mock.Mocker() as mock:
         mock.get(URL, text=html_original)
-        resources, html = prepare_data(URL, to_dir(URL))
+        resources, html = prepare_data(URL)
         expected_resources = [
             ('/assets/professions/nodejs.png',
              'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-professions-nodejs.png'),
