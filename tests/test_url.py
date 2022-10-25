@@ -1,6 +1,5 @@
 import pytest
 from page_loader.url import to_filename, to_dir, to_resource_name
-from page_loader import download
 
 
 URL = 'https://page-loader.hexlet.repl.co/'
@@ -30,10 +29,3 @@ def test_to_dir(url, expected_dir_name):
                           ])
 def test_to_resource_name(url, resource_path, expected_name):
     assert to_resource_name(url, resource_path) == expected_name
-
-
-def test_directory_not_exist():
-    try:
-        download(URL, 'some_dir')
-    except FileNotFoundError:
-        print("Directory 'some_dir' doesn't exist")

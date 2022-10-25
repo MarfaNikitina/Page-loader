@@ -50,12 +50,12 @@ def test_prepare_data():
         mock.get(URL, text=html_original)
         resources, html = prepare_data(URL, to_dir(URL))
         expected_resources = [
+            ('/assets/professions/nodejs.png',
+             'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-professions-nodejs.png'),
             ('/assets/application.css',
              'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-application.css'),
             ('/courses',
              'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-courses.html'),
-            ('/assets/professions/nodejs.png',
-             'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-assets-professions-nodejs.png'),
             ('/script.js',
              'page-loader-hexlet-repl-co-_files/page-loader-hexlet-repl-co-script.js')
         ]
@@ -73,3 +73,10 @@ def test_exception():
         download('https://notexist.com')
 
         assert str(e.value) == requests.RequestException
+
+
+def test_directory_not_exist():
+    try:
+        download(URL, 'some_dir')
+    except FileNotFoundError:
+        print("Directory 'some_dir' doesn't exist")

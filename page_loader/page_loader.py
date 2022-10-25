@@ -8,31 +8,27 @@ from urllib.parse import urljoin
 from progress.bar import IncrementalBar
 
 
-def download(url, filepath=os.getcwd()):
+def download(url, dir_path=os.getcwd()):
     """Download html and resources from url"""
-    if not os.path.exists(filepath):
-        logging.info(f"Directory {filepath} doesn't exist."
+    if not os.path.exists(dir_path):
+        logging.info(f"Directory {dir_path} doesn't exist."
                      f" Please, choose another directory.")
         raise FileNotFoundError
-    new_file_name = os.path.join(filepath, to_filename(url))
+    new_file_name = os.path.join(dir_path, to_filename(url))
     dir_name = to_dir(url)
-    dir_path = os.path.join(filepath, dir_name)
+    new_dir_path = os.path.join(dir_path, dir_name)
     resources, html = prepare_data(url, dir_name)
-    create_directory(dir_path)
+    if not os.path.exists(new_dir_path):
+        logging.info(f'Create directory {new_dir_path}')
+        os.mkdir(new_dir_path)
+    else:
+        logging.info(f'Directory {new_dir_path} has been already created.')
     logging.info(f'Downloading resources from {url}')
-    download_resources(resources, url, filepath)
+    download_resources(resources, url, dir_path)
     logging.info(f'Downloading html from {url}')
     with open(new_file_name, 'w') as f:
         f.write(html)
     return new_file_name
-
-
-def create_directory(dir_path):
-    if not os.path.exists(dir_path):
-        logging.info(f'Create directory {dir_path}')
-        os.mkdir(dir_path)
-    else:
-        logging.info(f'Directory {dir_path} has been already created.')
 
 
 def download_resources(resources, url, dir_name):
