@@ -33,7 +33,7 @@ def download(url, dir_path=os.getcwd()):
 
 def download_resources(resources, url, dir_name):
     if len(resources) == 0:
-        logging.info(f'No resources for download from {url}')
+        logging.info(f'No resources to download from {url}')
     with IncrementalBar(
             'Downloading:',
             max=len(resources),
@@ -42,7 +42,8 @@ def download_resources(resources, url, dir_name):
         try:
             for resource in resources:
                 bar.next()
-                download_resource(url, resource, dir_name)
+                url_link, path = resource
+                download_resource(url, url_link, path, dir_name)
         except Exception as e:
             cause_info = (e.__class__, e, e.__traceback__)
             logging.info(str(e), exc_info=cause_info)
@@ -51,9 +52,9 @@ def download_resources(resources, url, dir_name):
             )
 
 
-def download_resource(url, resource, dir_name):
-    filename = os.path.join(dir_name, resource[1])
-    src = urljoin(url, resource[0])
+def download_resource(url, url_link, path, dir_name):
+    filename = os.path.join(dir_name, path)
+    src = urljoin(url, url_link)
     response = requests.get(src, stream=True)
     with open(filename, 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
