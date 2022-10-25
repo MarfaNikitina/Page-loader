@@ -32,6 +32,15 @@ def is_desired_link(link, url):
     parsed = urlparse(link)
     return parsed.netloc == urlparse(url).netloc or parsed.netloc == ''
 
+
+# def work_on_tag(tag, attribute, url, dir_name):
+#     if tag.get(attribute) is not None:
+#         if is_desired_link(tag.get(attribute), url):
+#             tag_link = tag.get(attribute)
+#             resource_name = to_resource_name(url, tag[attribute])
+#             tag[attribute] = os.path.join(dir_name, resource_name)
+#             return tag_link, tag[attribute]
+
     # tags_ = {
     #     'img': 'src',
     #     'link': 'href',

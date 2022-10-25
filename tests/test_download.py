@@ -1,5 +1,4 @@
 import pytest
-# from urllib.parse import urlparse
 import os
 from page_loader.url import to_filename, to_dir
 from page_loader.page_loader import download
@@ -28,23 +27,24 @@ HTML_PRETTIFY = f"{FIXTURES_PATH}/prettify_html.html"
 
 
 def test_download():
-    html_original = read(HTML_ORIGINAL)
-    html_expected = read(HTML_PRETTIFY)
+    html_original = read(HTML_ORIGINAL, 'r')
+    html_expected = read(HTML_PRETTIFY, 'r')
 
     with requests_mock.Mocker() as mock, tempfile.TemporaryDirectory() as tmpdir:
         resources = TEST_DATA
         mock.get(URL, text=html_original)
-        for resource in resources:
-            mock.get(resource[0])
+        for url, path in resources:
+            content = read(path, 'rb')
+            mock.get(url, content=content)
         download(URL, tmpdir)
-        actual_html = read(os.path.join(tmpdir, to_filename(URL)))
+        actual_html = read(os.path.join(tmpdir, to_filename(URL)), 'r')
         assert actual_html == html_expected
         assert mock.call_count == 5
 
 
 def test_prepare_data():
-    html_original = read(HTML_ORIGINAL)
-    html_expected = read(HTML_PRETTIFY)
+    html_original = read(HTML_ORIGINAL, 'r')
+    html_expected = read(HTML_PRETTIFY, 'r')
 
     with requests_mock.Mocker() as mock:
         mock.get(URL, text=html_original)
@@ -63,16 +63,12 @@ def test_prepare_data():
         assert expected_resources == resources
 
 
-def read(file_path, binary=False):
-    if binary:
-        with open(file_path, 'rb') as data:
-            return data.read()
-    else:
-        with open(file_path, 'r') as data:
-            return data.read()
+def read(file_path, mode):
+    with open(file_path, mode) as data:
+        return data.read()
 
 
-def test_false_response():
+def test_exception():
     with pytest.raises(Exception) as e:
         download('https://notexist.com')
 
