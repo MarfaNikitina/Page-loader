@@ -15,8 +15,8 @@ from urllib.parse import urlparse
 def to_filename(url, resource_path=''):
     if resource_path == '':
         resource_path = url
-    url_without_extension = os.path.splitext(url)[0]
-    parsed_url = urlparse(url_without_extension)
+    # url_without_extension = os.path.splitext(url)[0]
+    parsed_url = urlparse(url)
     desired_resource_path = urlparse(resource_path).path.split('/')
     desired_netloc = re.split(r'\/|\.', parsed_url.netloc)
     file_name = '-'.join(desired_netloc) + '-'.join(desired_resource_path)
