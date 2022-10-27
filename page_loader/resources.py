@@ -28,10 +28,12 @@ def prepare_data(url, dir_path=os.getcwd()):
     resources = []
     for tag, attribute in RESOURCE_TAGS:
         tags_wanted = [
-            (tag_name, attribute) for tag_name in page.findAll(tag)
+            (tag_name, attribute) for tag_name in page(tag)
             if tag_name.get(attribute) is not None
         ]
+        # resources.append((page(tag), attribute))
         resources.extend(tags_wanted)
+    print(resources)
     resource_pair = []
     for tag, attribute in resources:
         if is_desired_link(tag.get(attribute), url):
