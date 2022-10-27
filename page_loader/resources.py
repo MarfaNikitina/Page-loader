@@ -31,7 +31,6 @@ def prepare_data(url, dir_path=os.getcwd()):
             (tag_name, attribute) for tag_name in page(tag)
             if tag_name.get(attribute) is not None
         ]
-        # resources.append((page(tag), attribute))
         resources.extend(tags_wanted)
     print(resources)
     resource_pair = []
