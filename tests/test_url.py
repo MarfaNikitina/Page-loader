@@ -1,5 +1,5 @@
 import pytest
-from page_loader.url import to_filename, to_dir, to_resource_name
+from page_loader.url import to_filename, to_dir
 
 
 URL = 'https://page-loader.hexlet.repl.co/'
@@ -28,4 +28,4 @@ def test_to_dir(url, expected_dir_name):
                            )
                           ])
 def test_to_resource_name(url, resource_path, expected_name):
-    assert to_resource_name(url, resource_path) == expected_name
+    assert to_filename(url, resource_path) == expected_name

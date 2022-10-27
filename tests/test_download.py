@@ -6,9 +6,8 @@ import tempfile
 import requests
 import requests_mock
 from page_loader.resources import prepare_data
+from tests import FIXTURES_PATH
 
-TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
-FIXTURES_PATH = f"{TESTS_DIR}/fixtures"
 
 TEST_DATA = [
     ('https://page-loader.hexlet.repl.co/assets/professions/nodejs.png',

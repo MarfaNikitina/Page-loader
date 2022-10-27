@@ -1,6 +1,5 @@
 import os
 import requests
-import shutil
 import logging
 from page_loader.url import to_filename
 from page_loader.resources import prepare_data
@@ -14,14 +13,14 @@ def download(url, dir_path=os.getcwd()):
         logging.info(f"Directory {dir_path} doesn't exist."
                      f" Please, choose another directory.")
         raise FileNotFoundError
-    new_file_name = os.path.join(dir_path, to_filename(url))
+    path_to_html = os.path.join(dir_path, to_filename(url))
     resources, html = prepare_data(url, dir_path)
     logging.info(f'Downloading resources from {url}')
     download_resources(resources, url, dir_path)
     logging.info(f'Downloading html from {url}')
-    with open(new_file_name, 'w') as f:
+    with open(path_to_html, 'w') as f:
         f.write(html)
-    return new_file_name
+    return path_to_html
 
 
 def download_resources(resources, url, dir_path):
@@ -35,8 +34,8 @@ def download_resources(resources, url, dir_path):
         try:
             for resource in resources:
                 bar.next()
-                url_link, path = resource
-                download_resource(url, url_link, path, dir_path)
+                resource_url, resource_path = resource
+                download_resource(url, resource_url, resource_path, dir_path)
         except Exception as e:
             cause_info = (e.__class__, e, e.__traceback__)
             logging.info(str(e), exc_info=cause_info)
@@ -45,9 +44,9 @@ def download_resources(resources, url, dir_path):
             )
 
 
-def download_resource(url, url_link, path, dir_path):
-    filename = os.path.join(dir_path, path)
-    src = urljoin(url, url_link)
+def download_resource(url, resource_url, resource_path, dir_path):
+    filename = os.path.join(dir_path, resource_path)
+    src = urljoin(url, resource_url)
     response = requests.get(src, stream=True)
     with open(filename, 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
+        out_file.write(response.content)
