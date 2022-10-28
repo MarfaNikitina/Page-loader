@@ -9,5 +9,5 @@ def parse():
     parser.add_argument('url', help='URL of the page you want to download')
     parser.add_argument('-o', '--output',
                         default=os.getcwd(),
-                        help='directory where you want to save the downloaded resources')
+                        help='output directory (default: current dir)')
     return parser.parse_args()

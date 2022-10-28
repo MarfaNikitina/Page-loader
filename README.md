@@ -12,22 +12,22 @@
 
 [![asciicast](https://asciinema.org/a/XAHVzpqKRHuDtGelgXOKa99aW.svg)](https://asciinema.org/a/XAHVzpqKRHuDtGelgXOKa99aW)
 
-<h3>Also, the utility downloads the necessary resources from the page (images, css, js-files).</h3>
+<h4>Also, the utility downloads the necessary resources from the page (images, css, js-files).</h4>
 
 [![asciicast](https://asciinema.org/a/E6L5nrVldNNwRxdtitgpoFghH.svg)](https://asciinema.org/a/E6L5nrVldNNwRxdtitgpoFghH)
 
-<h3>When erroneous arguments are passed to the load function, exceptions are raised and error messages are printed to the console</h3>
+<h4>When erroneous arguments are passed to the load function, exceptions are raised and error messages are printed to the console</h4>
 
-<h3>Non-existent writable directory:</h3>
+<h4>Non-existent writable directory:</h4>
 
 [![asciicast](https://asciinema.org/a/FcDtunP2E25VQcDBnz4Ke2KQt.svg)](https://asciinema.org/a/FcDtunP2E25VQcDBnz4Ke2KQt)
 
-<h3>Defunct web page:</h3>
+<h4>Defunct web page:</h4>
 
 [![asciicast](https://asciinema.org/a/lr5nf9tgPCnnBhbNOljvR3PKI.svg)](https://asciinema.org/a/lr5nf9tgPCnnBhbNOljvR3PKI)
 
 
-<h4>Dependencies:</h4>
+<h3>Dependencies:</h3>
 <ul>
 <li>python = "^3.10"</li>
 <li>requests = "^2.28.1"</li>
@@ -36,23 +36,23 @@
 <li>progress="^1.6"</li>
 </ul>
 
-<h4>Installation</h4>
+<h3>Installation</h3>
 <ul>
 <li>Before installing the package, you need to make sure that you have Python version 3.8 or higher installed: python3 --version.</li>
 <li>Also, to work with the project, you need to have Poetry installed. </li>
-<li>To work with the package, you need to clone the repository to your computer:
-# clone via HTTPS:
->> https://github.com/MarfaNikitina/python-project-lvl3.git
-# clone via SSH:
+<li>To work with the package, you need to clone the repository to your computer:<br>
+# clone via HTTPS:<br>
+>> https://github.com/MarfaNikitina/python-project-lvl3.git<br>
+# clone via SSH:<br>
 >> git clone git@github.com:MarfaNikitina/python-project-lvl3.git</li>
 
-<li>You need to go to the project directory and install the package:
->>> cd python-project-lvl3
->>> poetry build
+<li>You need to go to the project directory and install the package:<br><br>
+>>> cd python-project-lvl3<br>
+>>> poetry build<br>
 >>> python3 -m pip install --user dist/*.whl </li>
 <li>Use the command: <br>
->>> page-loader --output dir URL
-where 'dir' - is the directory where you want to save the downloaded resources
+>>> page-loader --output dir URL<br>
+where 'dir' - is the directory where you want to save the downloaded resources<br>
 and 'URL' - URL of the page you want to download</li>
 </ul>
 
