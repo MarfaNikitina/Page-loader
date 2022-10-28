@@ -38,22 +38,22 @@
 
 <h4>Installation</h4>
 <ul>
-<ol>Before installing the package, you need to make sure that you have Python version 3.8 or higher installed: python3 --version.</ol>
-<ol>Also, to work with the project, you need to have Poetry installed. </ol>
-<ol>To work with the package, you need to clone the repository to your computer:
+<li>Before installing the package, you need to make sure that you have Python version 3.8 or higher installed: python3 --version.</li>
+<li>Also, to work with the project, you need to have Poetry installed. </li>
+<li>To work with the package, you need to clone the repository to your computer:
 # clone via HTTPS:
 >> https://github.com/MarfaNikitina/python-project-lvl3.git
 # clone via SSH:
->> git clone git@github.com:MarfaNikitina/python-project-lvl3.git</ol>
+>> git clone git@github.com:MarfaNikitina/python-project-lvl3.git</li>
 
-<ol>You need to go to the project directory and install the package:
+<li>You need to go to the project directory and install the package:
 >>> cd python-project-lvl3
 >>> poetry build
->>> python3 -m pip install --user dist/*.whl </ol>
-<ol>Use the command: 
+>>> python3 -m pip install --user dist/*.whl </li>
+<li>Use the command: <br>
 >>> page-loader --output dir URL
 where 'dir' - is the directory where you want to save the downloaded resources
-and 'URL' - URL of the page you want to download</ol>
+and 'URL' - URL of the page you want to download</li>
 </ul>
 
 
