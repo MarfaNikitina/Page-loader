@@ -8,8 +8,8 @@ import requests_mock
 from page_loader.resources import prepare_data
 from tests import FIXTURES_PATH
 
-
-TEST_DATA = [
+URL = 'https://page-loader.hexlet.repl.co/'
+MEDIA_FILES = [
     ('https://page-loader.hexlet.repl.co/assets/professions/nodejs.png',
         f"{FIXTURES_PATH}/fixture_img.png"),
     ('https://page-loader.hexlet.repl.co/assets/application.css',
@@ -20,17 +20,15 @@ TEST_DATA = [
         f"{FIXTURES_PATH}/fixture_courses.txt")
 ]
 
-URL = 'https://page-loader.hexlet.repl.co/'
-HTML_ORIGINAL = f"{FIXTURES_PATH}/original_html.html"
-HTML_PRETTIFY = f"{FIXTURES_PATH}/prettify_html.html"
 
-
-def test_download():
-    html_original = read(HTML_ORIGINAL, 'r')
-    html_expected = read(HTML_PRETTIFY, 'r')
+@pytest.mark.parametrize('original, expected',
+                         [('original_html.html', 'prettify_html.html')])
+def test_download(original, expected):
+    html_original = read(f"{FIXTURES_PATH}/{original}", 'r')
+    html_expected = read(f"{FIXTURES_PATH}/{expected}", 'r')
 
     with requests_mock.Mocker() as mock, tempfile.TemporaryDirectory() as tmpdir:
-        resources = TEST_DATA
+        resources = MEDIA_FILES
         mock.get(URL, text=html_original)
         for url, path in resources:
             content = read(path, 'rb')
@@ -41,9 +39,11 @@ def test_download():
         assert mock.call_count == 5
 
 
-def test_prepare_data():
-    html_original = read(HTML_ORIGINAL, 'r')
-    html_expected = read(HTML_PRETTIFY, 'r')
+@pytest.mark.parametrize('original, expected',
+                         [('original_html.html', 'prettify_html.html')])
+def test_prepare_data(original, expected):
+    html_original = read(f"{FIXTURES_PATH}/{original}", 'r')
+    html_expected = read(f"{FIXTURES_PATH}/{expected}", 'r')
 
     with requests_mock.Mocker() as mock:
         mock.get(URL, text=html_original)

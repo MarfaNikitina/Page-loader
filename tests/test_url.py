@@ -2,9 +2,6 @@ import pytest
 from page_loader.url import to_filename, to_dir
 
 
-URL = 'https://page-loader.hexlet.repl.co/'
-
-
 @pytest.mark.parametrize('url, expected_filename',
                          [('https://ru.hexlet.io/courses', 'ru-hexlet-io-courses.html')])
 def test_to_file(url, expected_filename):

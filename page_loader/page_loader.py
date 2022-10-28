@@ -26,6 +26,7 @@ def download(url, dir_path=os.getcwd()):
 def download_resources(resources, url, dir_path):
     if len(resources) == 0:
         logging.info(f'No resources to download from {url}')
+        return
     with IncrementalBar(
             'Downloading:',
             max=len(resources),
@@ -45,8 +46,8 @@ def download_resources(resources, url, dir_path):
 
 
 def download_resource(url, resource_url, resource_path, dir_path):
-    filename = os.path.join(dir_path, resource_path)
+    fullpath = os.path.join(dir_path, resource_path)
     src = urljoin(url, resource_url)
     response = requests.get(src, stream=True)
-    with open(filename, 'wb') as out_file:
+    with open(fullpath, 'wb') as out_file:
         out_file.write(response.content)

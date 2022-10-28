@@ -8,22 +8,22 @@
 
 
 В проекте реализовано:
-<h1>Рage-loader</h1> - утилита командной строки ,которая скачивает страницу из сети и кладет в указанную существующую директорию (по умолчанию в директорию запуска программы).
-<h3>Программа выводит на экран полный путь к загруженному файлу:</h3>
+<h1>Рage-loader</h1> - command line utility that downloads a page from the network and puts it in the specified existing directory (by default, in the program launch directory).
+<h3>The program displays the full path to the downloaded file:</h3>
 
 [![asciicast](https://asciinema.org/a/XAHVzpqKRHuDtGelgXOKa99aW.svg)](https://asciinema.org/a/XAHVzpqKRHuDtGelgXOKa99aW)
 
-<h3>Так же, утилита скачивает со страницы необходимые ресурсы (изображения, css, js-файлы).</h3>
+<h3>Also, the utility downloads the necessary resources from the page (images, css, js-files).</h3>
 
 [![asciicast](https://asciinema.org/a/E6L5nrVldNNwRxdtitgpoFghH.svg)](https://asciinema.org/a/E6L5nrVldNNwRxdtitgpoFghH)
 
-<h3>При передаче в функцию загрузки ошибочных аргументов, вызываются исключения и в консоль выводятся сообщения об ошибке</h3>
+<h3>When erroneous arguments are passed to the load function, exceptions are raised and error messages are printed to the console</h3>
 
-<h3>Несуществующая директория для записи:</h3>
+<h3>Non-existent writable directory:</h3>
 
 [![asciicast](https://asciinema.org/a/FcDtunP2E25VQcDBnz4Ke2KQt.svg)](https://asciinema.org/a/FcDtunP2E25VQcDBnz4Ke2KQt)
 
-<h3>Несуществующая интернет-страница:</h3>
+<h3>Defunct web page:</h3>
 
 [![asciicast](https://asciinema.org/a/lr5nf9tgPCnnBhbNOljvR3PKI.svg)](https://asciinema.org/a/lr5nf9tgPCnnBhbNOljvR3PKI)
 

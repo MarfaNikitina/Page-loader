@@ -17,8 +17,8 @@ def prepare_data(url, dir_path=os.getcwd()):
     response = requests.get(url)
     response.raise_for_status()
     page = BeautifulSoup(response.content, 'html.parser')
-    dir_name = to_dir(url)
-    media_resources_path = os.path.join(dir_path, dir_name)
+    resource_path = to_dir(url)
+    media_resources_path = os.path.join(dir_path, resource_path)
     if not os.path.exists(media_resources_path):
         logging.info(f'Create directory {media_resources_path}')
         os.mkdir(media_resources_path)
@@ -32,17 +32,16 @@ def prepare_data(url, dir_path=os.getcwd()):
             if tag_name.get(attribute) is not None
         ]
         resources.extend(tags_wanted)
-    print(resources)
     resource_pair = []
     for tag, attribute in resources:
         if is_desired_link(tag.get(attribute), url):
             tag_link = tag.get(attribute)
             resource_name = to_filename(url, tag[attribute])
-            tag[attribute] = os.path.join(dir_name, resource_name)
+            tag[attribute] = os.path.join(resource_path, resource_name)
             resource_pair.append((tag_link, tag[attribute]))
     return resource_pair, page.prettify()
 
 
-def is_desired_link(link, url):
-    parsed = urlparse(link)
-    return parsed.netloc == urlparse(url).netloc or parsed.netloc == ''
+def is_desired_link(mediafile_url, page_url):
+    parsed = urlparse(mediafile_url)
+    return parsed.netloc == urlparse(page_url).netloc or parsed.netloc == ''
