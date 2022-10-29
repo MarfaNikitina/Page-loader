@@ -15,7 +15,6 @@ def download(url, dir_path=os.getcwd()):
         raise FileNotFoundError
     path_to_html = os.path.join(dir_path, to_filename(url))
     resources, html = prepare_data(url, dir_path)
-    logging.info(f'Downloading resources from {url}')
     download_resources(resources, url, dir_path)
     logging.info(f'Downloading html from {url}')
     with open(path_to_html, 'w') as f:
@@ -27,6 +26,7 @@ def download_resources(resources, url, dir_path):
     if len(resources) == 0:
         logging.info(f'No resources to download from {url}')
         return
+    logging.info(f'Downloading resources from {url}')
     with IncrementalBar(
             'Downloading:',
             max=len(resources),
