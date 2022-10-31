@@ -29,11 +29,10 @@
 >>>  git clone git@github.com:MarfaNikitina/python-project-lvl3.git</li>
 
 <li>You need to go to the project directory and install the package:<br><br>
-```bash
+
 >>> cd python-project-lvl3<br>
 >>> poetry build<br>
->>> python3 -m pip install --user dist/*.whl 
-```
+>>> python3 -m pip install --user dist/*.whl
 </li> 
 <li>Use the command: <br>
 >>> page-loader --output dir URL<br>
