@@ -29,7 +29,7 @@
 >>>  git clone git@github.com:MarfaNikitina/python-project-lvl3.git</li>
 
 <li>You need to go to the project directory and install the package:<br><br>
-```python
+```bash
 >>> cd python-project-lvl3<br>
 >>> poetry build<br>
 >>> python3 -m pip install --user dist/*.whl 
