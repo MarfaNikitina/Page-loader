@@ -5,7 +5,7 @@ from page_loader.page_loader import download
 import tempfile
 import requests
 import requests_mock
-from page_loader.resources import prepare_data
+from page_loader.resources import prepare_data, is_desired_link
 from tests import FIXTURES_PATH
 
 URL = 'https://page-loader.hexlet.repl.co/'
@@ -79,3 +79,11 @@ def test_directory_not_exist():
         download(URL, 'some_dir')
     except FileNotFoundError:
         print("Directory 'some_dir' doesn't exist")
+
+
+@pytest.mark.parametrize('mediafile_url, page_url',
+                         [('/assets/professions/nodejs.png', 'https://page-loader.hexlet.repl.co/'),
+                          ('/assets/application.css', 'https://page-loader.hexlet.repl.co/')]
+                         )
+def test_is_desired_link(mediafile_url, page_url):
+    assert is_desired_link(mediafile_url, page_url)
